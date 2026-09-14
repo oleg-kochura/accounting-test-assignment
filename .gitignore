@@ -25,6 +25,9 @@ build/
 .vscode/*
 !.vscode/extensions.json
 .idea/
+
+# Claude Code (local overrides only; settings.json is tracked)
+.claude/settings.local.json
 *.swp
 *.suo
 *.ntvs*
