@@ -9,11 +9,14 @@ Test assignment for an accounting position.
 - Zustand (state management)
 - Tailwind CSS v4
 - ESLint + Prettier
+- Husky + lint-staged + commitlint (git hooks)
+- Knip (unused files / exports / dependencies)
+- GitHub Actions CI
 
 ## Getting started
 
 ```bash
-npm install
+npm install   # also installs git hooks via husky
 npm run dev
 ```
 
@@ -26,3 +29,17 @@ npm run dev
 - `npm run lint:fix` — run ESLint with autofix
 - `npm run format` — format the codebase with Prettier
 - `npm run format:check` — check formatting without writing
+- `npm run typecheck` — TypeScript type check (`tsc -b`)
+- `npm run knip` — find unused files, exports and dependencies
+
+## Git hooks
+
+- **pre-commit** — `lint-staged`: ESLint `--fix` + Prettier on staged files
+- **commit-msg** — `commitlint` enforces [Conventional Commits](https://www.conventionalcommits.org/)
+  (`feat: ...`, `fix: ...`, `chore: ...`, …)
+- **pre-push** — `npm run typecheck && npm run knip`
+
+## CI
+
+`.github/workflows/ci.yml` runs on pushes to `main` and on pull requests:
+lint, format check, typecheck, knip, build.

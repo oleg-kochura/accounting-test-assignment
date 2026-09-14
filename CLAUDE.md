@@ -11,5 +11,6 @@ code style, conventions) lives in AGENTS.md and applies here too:
   in `.claude/settings.json` so routine checks don't need confirmation.
   Commits and pushes are intentionally left out of that list — always ask,
   or wait to be asked, before running them.
-- After any code change, run `npm run lint`, `npm run format:check`, and
-  `npm run build` before reporting the task done.
+- After any code change, run `npm run lint`, `npm run format:check`,
+  `npm run typecheck`, `npm run knip`, and `npm run build` before reporting
+  the task done.

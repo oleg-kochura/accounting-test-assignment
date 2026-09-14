@@ -14,11 +14,12 @@ in this repository. Human contributors can use `README.md` instead.
 - Zustand 5 (state management)
 - Tailwind CSS v4 (via `@tailwindcss/vite`, no `tailwind.config.js`)
 - ESLint (flat config) + Prettier
+- Husky + lint-staged + commitlint (git hooks), Knip, GitHub Actions CI
 
 ## Setup & commands
 
 ```bash
-npm install          # install dependencies
+npm install          # install dependencies (+ git hooks via husky)
 npm run dev           # start dev server (http://localhost:5173)
 npm run build         # type-check (tsc -b) + production build to dist/
 npm run preview        # preview the production build
@@ -26,10 +27,17 @@ npm run lint           # ESLint
 npm run lint:fix        # ESLint with autofix
 npm run format          # Prettier --write
 npm run format:check     # Prettier --check (no writes)
+npm run typecheck        # tsc -b
+npm run knip             # unused files / exports / dependencies
 ```
 
-Before finishing any task, run `npm run lint`, `npm run format:check`, and
-`npm run build`. All three must pass cleanly.
+Before finishing any task, run `npm run lint`, `npm run format:check`,
+`npm run typecheck`, `npm run knip`, and `npm run build`. All must pass
+cleanly — CI (`.github/workflows/ci.yml`) runs exactly these checks.
+
+If knip flags something you legitimately need (e.g. a dependency used only
+via a config file it can't see), add it to a `knip.json` with a comment
+explaining why, rather than deleting it or ignoring the failure.
 
 There is currently no test suite. If you add one, wire it into these
 commands and update this file.
@@ -68,8 +76,15 @@ public/               # static assets served as-is
 ## Git conventions
 
 - Default branch: `main`.
-- Commit messages: short, imperative summary line (e.g. "Add X", not
-  "Added X" or "Adds X"); body only if the change needs explaining.
+- Commit messages follow Conventional Commits, enforced by commitlint
+  (`@commitlint/config-conventional`): `<type>: <short imperative summary>`
+  with lowercase summary, no trailing period. Common types: `feat`, `fix`,
+  `chore`, `refactor`, `docs`, `style`, `test`, `ci`, `build`. Body only if
+  the change needs explaining. Example: `feat: add invoice list page`.
+- Git hooks (husky) run automatically: `pre-commit` → lint-staged (ESLint
+  `--fix` + Prettier on staged files), `commit-msg` → commitlint,
+  `pre-push` → `npm run typecheck && npm run knip`. Don't bypass them with
+  `--no-verify`; fix the underlying issue instead.
 - Do not commit or push unless the user explicitly asks — prepare the
   change and let them review first, unless told otherwise for the session.
 - Never commit `.env`, secrets, or `node_modules/` (already gitignored).
