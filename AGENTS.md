@@ -75,7 +75,13 @@ public/               # static assets served as-is
 
 ## Git conventions
 
-- Default branch: `main`.
+- Default branch: `main`. It is **protected**: direct pushes are rejected
+  (also for admins), history is linear, force-pushes and deletions are
+  blocked. All changes go through a pull request whose `checks` CI job is
+  green and up to date with `main`. Workflow: create a branch
+  (`feat/<short-name>`, `fix/<short-name>`, `chore/<short-name>`) → commit →
+  push → `gh pr create` → merge (squash or rebase) once CI passes. No
+  approving reviews are required, so the author can merge their own PR.
 - Commit messages follow Conventional Commits, enforced by commitlint
   (`@commitlint/config-conventional`): `<type>: <short imperative summary>`
   with lowercase summary, no trailing period. Common types: `feat`, `fix`,
@@ -91,8 +97,9 @@ public/               # static assets served as-is
 
 ## Notes for agents
 
-- The repository is a private GitHub repo:
-  `oleg-kochura/accounting-test-assignment`.
+- The repository is a public GitHub repo:
+  `oleg-kochura/accounting-test-assignment`. Don't commit anything that
+  shouldn't be public (credentials, personal data, real accounting data).
 - Node.js: developed against Node 22.x.
 - Tailwind v4 has no config file by default — don't create
   `tailwind.config.js` unless you actually need custom theme values; add
