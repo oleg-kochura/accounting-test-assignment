@@ -52,6 +52,7 @@ src/
   store/              # Zustand stores, one file per store
     useCounterStore.ts
 public/               # static assets served as-is
+docs/design/           # design specs, tokens, and HTML/CSS prototypes
 ```
 
 ## Code style
