@@ -1,0 +1,6 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  // Design reference file, not imported by the app — kept alongside the
+  // other invoice template customizer design deliverables in docs/design/.
+  "ignore": ["docs/design/tailwind.config.ts"]
+}
