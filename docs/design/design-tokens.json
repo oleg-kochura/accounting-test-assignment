@@ -1,0 +1,377 @@
+{
+  "meta": {
+    "name": "Invoice Template Customizer — design tokens",
+    "source": "invoice-template-customizer-final.html",
+    "direction": "modern-minimal (Linear / Vercel posture)",
+    "structure": "3-tier — primitive (raw scale) → semantic (role aliases, derived) → component (named intent)",
+    "usage": "Values are copy-exact from the shipped HTML prototype's :root. Colour primitives use oklch(); semantic colours are CSS color-mix() expressions that reference the primitives by CSS custom property — paste `css` verbatim into a :root or a Tailwind v4 `@theme` block to get working derived colours. Component tokens that are pure numeric aliases (e.g. control-sm → space-9) are pre-resolved to their pixel value for direct use in JS/RN, with the alias noted for traceability."
+  },
+
+  "primitive": {
+    "color": {
+      "bg": {
+        "value": "oklch(99% 0.002 240)",
+        "type": "color",
+        "cssVar": "--bg"
+      },
+      "surface": {
+        "value": "oklch(100% 0 0)",
+        "type": "color",
+        "cssVar": "--surface"
+      },
+      "fg": {
+        "value": "oklch(18% 0.012 250)",
+        "type": "color",
+        "cssVar": "--fg"
+      },
+      "muted": {
+        "value": "oklch(54% 0.012 250)",
+        "type": "color",
+        "cssVar": "--muted"
+      },
+      "border": {
+        "value": "oklch(92% 0.005 250)",
+        "type": "color",
+        "cssVar": "--border"
+      },
+      "accent": {
+        "value": "oklch(58% 0.18 255)",
+        "type": "color",
+        "cssVar": "--accent"
+      },
+      "warn": {
+        "value": "oklch(72% 0.15 75)",
+        "type": "color",
+        "cssVar": "--warn"
+      }
+    },
+
+    "spacing": {
+      "description": "4px grid, 2px half-steps below 20px. Key = CSS var suffix (space-{key}).",
+      "0-5": { "value": "2px", "type": "dimension", "cssVar": "--space-0-5" },
+      "1": { "value": "4px", "type": "dimension", "cssVar": "--space-1" },
+      "1-5": { "value": "6px", "type": "dimension", "cssVar": "--space-1-5" },
+      "2": { "value": "8px", "type": "dimension", "cssVar": "--space-2" },
+      "2-5": { "value": "10px", "type": "dimension", "cssVar": "--space-2-5" },
+      "3": { "value": "12px", "type": "dimension", "cssVar": "--space-3" },
+      "3-5": { "value": "14px", "type": "dimension", "cssVar": "--space-3-5" },
+      "4": { "value": "16px", "type": "dimension", "cssVar": "--space-4" },
+      "4-5": { "value": "18px", "type": "dimension", "cssVar": "--space-4-5" },
+      "5": { "value": "20px", "type": "dimension", "cssVar": "--space-5" },
+      "6": { "value": "24px", "type": "dimension", "cssVar": "--space-6" },
+      "7": { "value": "28px", "type": "dimension", "cssVar": "--space-7" },
+      "8": { "value": "32px", "type": "dimension", "cssVar": "--space-8" },
+      "9": { "value": "36px", "type": "dimension", "cssVar": "--space-9" },
+      "10": { "value": "40px", "type": "dimension", "cssVar": "--space-10" },
+      "11": { "value": "44px", "type": "dimension", "cssVar": "--space-11" },
+      "12": { "value": "48px", "type": "dimension", "cssVar": "--space-12" },
+      "13": { "value": "52px", "type": "dimension", "cssVar": "--space-13" },
+      "14": { "value": "56px", "type": "dimension", "cssVar": "--space-14" },
+      "16": { "value": "64px", "type": "dimension", "cssVar": "--space-16" },
+      "18": { "value": "72px", "type": "dimension", "cssVar": "--space-18" },
+      "27": { "value": "108px", "type": "dimension", "cssVar": "--space-27" },
+      "28": { "value": "112px", "type": "dimension", "cssVar": "--space-28" }
+    },
+
+    "fontSize": {
+      "2xs": { "value": "10px", "type": "dimension", "cssVar": "--fs-2xs" },
+      "xs": { "value": "11px", "type": "dimension", "cssVar": "--fs-xs" },
+      "sm": { "value": "12px", "type": "dimension", "cssVar": "--fs-sm" },
+      "md": { "value": "13px", "type": "dimension", "cssVar": "--fs-md" },
+      "base": { "value": "14px", "type": "dimension", "cssVar": "--fs-base" },
+      "lg": { "value": "15px", "type": "dimension", "cssVar": "--fs-lg" },
+      "xl": { "value": "17px", "type": "dimension", "cssVar": "--fs-xl" },
+      "2xl": { "value": "20px", "type": "dimension", "cssVar": "--fs-2xl" },
+      "3xl": { "value": "22px", "type": "dimension", "cssVar": "--fs-3xl" },
+      "5xl": { "value": "26px", "type": "dimension", "cssVar": "--fs-5xl" },
+      "7xl": { "value": "40px", "type": "dimension", "cssVar": "--fs-7xl" }
+    },
+
+    "fontWeight": {
+      "medium": { "value": 500, "type": "fontWeight", "cssVar": "--fw-medium" },
+      "semibold": {
+        "value": 600,
+        "type": "fontWeight",
+        "cssVar": "--fw-semibold"
+      },
+      "bold": { "value": 700, "type": "fontWeight", "cssVar": "--fw-bold" }
+    },
+
+    "lineHeight": {
+      "tight": { "value": 1, "type": "number", "cssVar": "--lh-tight" },
+      "snug": { "value": 1.2, "type": "number", "cssVar": "--lh-snug" },
+      "normal": { "value": 1.3, "type": "number", "cssVar": "--lh-normal" },
+      "relaxed": { "value": 1.5, "type": "number", "cssVar": "--lh-relaxed" }
+    },
+
+    "letterSpacing": {
+      "tighter": {
+        "value": "-0.03em",
+        "type": "dimension",
+        "cssVar": "--tracking-tighter"
+      },
+      "tight": {
+        "value": "-0.02em",
+        "type": "dimension",
+        "cssVar": "--tracking-tight"
+      },
+      "snug": {
+        "value": "-0.015em",
+        "type": "dimension",
+        "cssVar": "--tracking-snug"
+      },
+      "normal": {
+        "value": "-0.005em",
+        "type": "dimension",
+        "cssVar": "--tracking-normal"
+      },
+      "wide": {
+        "value": "0.02em",
+        "type": "dimension",
+        "cssVar": "--tracking-wide"
+      },
+      "wider": {
+        "value": "0.06em",
+        "type": "dimension",
+        "cssVar": "--tracking-wider"
+      },
+      "widest": {
+        "value": "0.07em",
+        "type": "dimension",
+        "cssVar": "--tracking-widest"
+      }
+    },
+
+    "radius": {
+      "xs": { "value": "6px", "type": "dimension", "cssVar": "--radius-xs" },
+      "sm": { "value": "8px", "type": "dimension", "cssVar": "--radius-sm" },
+      "md": { "value": "10px", "type": "dimension", "cssVar": "--radius-md" },
+      "lg": { "value": "12px", "type": "dimension", "cssVar": "--radius-lg" },
+      "pill": {
+        "value": "999px",
+        "type": "dimension",
+        "cssVar": "--radius-pill"
+      }
+    },
+
+    "iconSize": {
+      "sm": { "value": "15px", "type": "dimension", "cssVar": "--icon-sm" },
+      "md": { "value": "16px", "type": "dimension", "cssVar": "--icon-md" },
+      "lg": { "value": "18px", "type": "dimension", "cssVar": "--icon-lg" },
+      "xl": { "value": "22px", "type": "dimension", "cssVar": "--icon-xl" }
+    },
+
+    "borderWidth": {
+      "DEFAULT": {
+        "value": "1px",
+        "type": "dimension",
+        "cssVar": "--border-w"
+      },
+      "2": { "value": "2px", "type": "dimension", "cssVar": "--border-w-2" }
+    },
+
+    "shadow": {
+      "xs": {
+        "value": "0 1px 2px color-mix(in oklch, var(--fg) 8%, transparent)",
+        "type": "shadow",
+        "cssVar": "--shadow-xs"
+      },
+      "md": {
+        "value": "0 1px 2px color-mix(in oklch, var(--fg) 6%, transparent), 0 12px 32px -12px color-mix(in oklch, var(--fg) 12%, transparent)",
+        "type": "shadow",
+        "cssVar": "--shadow-md"
+      }
+    },
+
+    "motion": {
+      "duration": {
+        "fast": {
+          "value": "0.15s",
+          "type": "duration",
+          "cssVar": "--dur-fast"
+        },
+        "snap": { "value": "0.05s", "type": "duration", "cssVar": "--dur-snap" }
+      },
+      "easing": {
+        "standard": {
+          "value": "ease",
+          "type": "cubicBezier",
+          "cssVar": "--ease-standard"
+        }
+      }
+    },
+
+    "zIndex": {
+      "appbar": { "value": 10, "type": "number", "cssVar": "--z-appbar" },
+      "sticky": { "value": 9, "type": "number", "cssVar": "--z-sticky" }
+    },
+
+    "fontFamily": {
+      "display": {
+        "value": "-apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif",
+        "type": "fontFamily",
+        "cssVar": "--font-display"
+      },
+      "body": {
+        "value": "-apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif",
+        "type": "fontFamily",
+        "cssVar": "--font-body"
+      },
+      "mono": {
+        "value": "ui-monospace, 'JetBrains Mono', 'SF Mono', Menlo, monospace",
+        "type": "fontFamily",
+        "cssVar": "--font-mono"
+      }
+    }
+  },
+
+  "semantic": {
+    "description": "Derived from primitives via CSS color-mix()/var() — resolve correctly only when the primitive tier is present in the same cascade. Values below are copy-exact CSS expressions, not pre-computed colours.",
+    "color": {
+      "accentSoft": {
+        "value": "color-mix(in oklch, var(--accent) 14%, transparent)",
+        "type": "color",
+        "cssVar": "--accent-soft",
+        "aliasOf": "primitive.color.accent"
+      },
+      "accentInk": {
+        "value": "color-mix(in oklch, var(--accent) 84%, black)",
+        "type": "color",
+        "cssVar": "--accent-ink",
+        "aliasOf": "primitive.color.accent"
+      },
+      "fgSoft": {
+        "value": "color-mix(in oklch, var(--fg) 6%, transparent)",
+        "type": "color",
+        "cssVar": "--fg-soft",
+        "aliasOf": "primitive.color.fg"
+      },
+      "fgSofter": {
+        "value": "color-mix(in oklch, var(--fg) 3%, transparent)",
+        "type": "color",
+        "cssVar": "--fg-softer",
+        "aliasOf": "primitive.color.fg"
+      },
+      "mutedText": {
+        "value": "color-mix(in oklch, var(--muted) 80%, var(--fg))",
+        "type": "color",
+        "cssVar": "--muted-text",
+        "aliasOf": "primitive.color.muted",
+        "description": "≥4.5:1 contrast on --bg — the only variant of --muted approved for small text"
+      },
+      "borderStrong": {
+        "value": "color-mix(in oklch, var(--border) 70%, var(--fg))",
+        "type": "color",
+        "cssVar": "--border-strong",
+        "aliasOf": "primitive.color.border"
+      },
+      "warnSoft": {
+        "value": "color-mix(in oklch, var(--warn) 18%, transparent)",
+        "type": "color",
+        "cssVar": "--warn-soft",
+        "aliasOf": "primitive.color.warn"
+      },
+      "warnInk": {
+        "value": "color-mix(in oklch, var(--warn) 55%, black)",
+        "type": "color",
+        "cssVar": "--warn-ink",
+        "aliasOf": "primitive.color.warn"
+      }
+    },
+    "fontSize": {
+      "heading": {
+        "value": "22px",
+        "type": "dimension",
+        "cssVar": "--fs-heading",
+        "aliasOf": "primitive.fontSize.3xl",
+        "description": "Pane titles (Customize / Preview)"
+      },
+      "body": {
+        "value": "14px",
+        "type": "dimension",
+        "cssVar": "--fs-body",
+        "aliasOf": "primitive.fontSize.base",
+        "description": "Running UI text — also the <body> base size"
+      },
+      "caption": {
+        "value": "12px",
+        "type": "dimension",
+        "cssVar": "--fs-caption",
+        "aliasOf": "primitive.fontSize.sm",
+        "description": "Meta text / hints"
+      }
+    }
+  },
+
+  "component": {
+    "description": "Named intent for one-off layout constants — not part of the generic scale, kept as their own tokens so the number reads as a decision, not a magic value.",
+    "control": {
+      "sm": {
+        "value": "36px",
+        "type": "dimension",
+        "cssVar": "--control-sm",
+        "aliasOf": "primitive.spacing.9",
+        "description": "Compact buttons, logo toggle"
+      },
+      "md": {
+        "value": "44px",
+        "type": "dimension",
+        "cssVar": "--control-md",
+        "aliasOf": "primitive.spacing.11",
+        "description": "Text inputs, primary buttons, colour swatches"
+      }
+    },
+    "layout": {
+      "appbarHeight": {
+        "value": "56px",
+        "type": "dimension",
+        "cssVar": "--appbar-h",
+        "aliasOf": "primitive.spacing.14"
+      },
+      "paneCustomizeWidth": {
+        "value": "520px",
+        "type": "dimension",
+        "cssVar": "--pane-customize-w",
+        "description": "Fixed width of the left editor pane at ≥1024px"
+      },
+      "paperMaxWidth": {
+        "value": "760px",
+        "type": "dimension",
+        "cssVar": "--paper-max-w",
+        "description": "Max width of the invoice document card on desktop"
+      },
+      "paperWidthUnitless": {
+        "value": 680,
+        "type": "number",
+        "cssVar": "--paper-w",
+        "description": "Read by JS for the compact fit-to-width scale calc — deliberately unitless"
+      },
+      "dropzoneMinHeight": {
+        "value": "108px",
+        "type": "dimension",
+        "cssVar": "--dropzone-min-h",
+        "aliasOf": "primitive.spacing.27"
+      },
+      "stickyFooterClearance": {
+        "value": "76px",
+        "type": "dimension",
+        "cssVar": "--sticky-footer-clearance",
+        "description": "Compact layout: bottom padding that clears the fixed Cancel/Save bar"
+      }
+    },
+    "invoice": {
+      "logoMaxWidth": {
+        "value": "200px",
+        "type": "dimension",
+        "cssVar": "--invoice-logo-max-w"
+      },
+      "totalsWidth": {
+        "value": "300px",
+        "type": "dimension",
+        "cssVar": "--invoice-totals-w"
+      }
+    }
+  },
+
+  "css": ":root {\n  /* primitive — colour */\n  --bg: oklch(99% 0.002 240);\n  --surface: oklch(100% 0 0);\n  --fg: oklch(18% 0.012 250);\n  --muted: oklch(54% 0.012 250);\n  --border: oklch(92% 0.005 250);\n  --accent: oklch(58% 0.18 255);\n  --warn: oklch(72% 0.15 75);\n\n  /* primitive — spacing */\n  --space-0-5: 2px; --space-1: 4px; --space-1-5: 6px; --space-2: 8px;\n  --space-2-5: 10px; --space-3: 12px; --space-3-5: 14px; --space-4: 16px;\n  --space-4-5: 18px; --space-5: 20px; --space-6: 24px; --space-7: 28px;\n  --space-8: 32px; --space-9: 36px; --space-10: 40px; --space-11: 44px;\n  --space-12: 48px; --space-13: 52px; --space-14: 56px; --space-16: 64px;\n  --space-18: 72px; --space-27: 108px; --space-28: 112px;\n\n  /* primitive — type */\n  --fs-2xs: 10px; --fs-xs: 11px; --fs-sm: 12px; --fs-md: 13px;\n  --fs-base: 14px; --fs-lg: 15px; --fs-xl: 17px; --fs-2xl: 20px;\n  --fs-3xl: 22px; --fs-5xl: 26px; --fs-7xl: 40px;\n  --fw-medium: 500; --fw-semibold: 600; --fw-bold: 700;\n  --lh-tight: 1; --lh-snug: 1.2; --lh-normal: 1.3; --lh-relaxed: 1.5;\n  --tracking-tighter: -0.03em; --tracking-tight: -0.02em; --tracking-snug: -0.015em;\n  --tracking-normal: -0.005em; --tracking-wide: .02em; --tracking-wider: .06em; --tracking-widest: .07em;\n\n  /* primitive — radius / icon / border / shadow / motion / z-index */\n  --radius-xs: 6px; --radius-sm: 8px; --radius-md: 10px; --radius-lg: 12px; --radius-pill: 999px;\n  --icon-sm: 15px; --icon-md: 16px; --icon-lg: 18px; --icon-xl: 22px;\n  --border-w: 1px; --border-w-2: 2px;\n  --shadow-xs: 0 1px 2px color-mix(in oklch, var(--fg) 8%, transparent);\n  --shadow-md: 0 1px 2px color-mix(in oklch, var(--fg) 6%, transparent), 0 12px 32px -12px color-mix(in oklch, var(--fg) 12%, transparent);\n  --dur-fast: .15s; --dur-snap: .05s; --ease-standard: ease;\n  --z-appbar: 10; --z-sticky: 9;\n\n  /* primitive — fonts */\n  --font-display: -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;\n  --font-body: -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;\n  --font-mono: ui-monospace, 'JetBrains Mono', 'SF Mono', Menlo, monospace;\n\n  /* semantic — colour aliases */\n  --accent-soft: color-mix(in oklch, var(--accent) 14%, transparent);\n  --accent-ink: color-mix(in oklch, var(--accent) 84%, black);\n  --fg-soft: color-mix(in oklch, var(--fg) 6%, transparent);\n  --fg-softer: color-mix(in oklch, var(--fg) 3%, transparent);\n  --muted-text: color-mix(in oklch, var(--muted) 80%, var(--fg)); /* >=4.5:1 on --bg for small text */\n  --border-strong: color-mix(in oklch, var(--border) 70%, var(--fg));\n  --warn-soft: color-mix(in oklch, var(--warn) 18%, transparent);\n  --warn-ink: color-mix(in oklch, var(--warn) 55%, black);\n  --fs-heading: var(--fs-3xl);\n  --fs-body: var(--fs-base);\n  --fs-caption: var(--fs-sm);\n\n  /* component — named intent */\n  --control-sm: var(--space-9);\n  --control-md: var(--space-11);\n  --appbar-h: var(--space-14);\n  --pane-customize-w: 520px;\n  --paper-w: 680;\n  --paper-max-w: 760px;\n  --dropzone-min-h: var(--space-27);\n  --invoice-logo-max-w: 200px;\n  --invoice-totals-w: 300px;\n  --sticky-footer-clearance: 76px;\n}\n"
+}
