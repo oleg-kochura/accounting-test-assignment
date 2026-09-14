@@ -41,5 +41,14 @@ npm run dev
 
 ## CI
 
-`.github/workflows/ci.yml` runs on pushes to `main` and on pull requests:
-lint, format check, typecheck, knip, build.
+`.github/workflows/ci.yml` runs on pushes to `main` and on pull requests.
+Static checks run in parallel; the build only runs once all of them pass:
+
+```
+Lint ─┐
+Format ─┤
+Typecheck ─┼─▶ Build
+Knip ─┘
+```
+
+All five jobs are required status checks on `main`.
