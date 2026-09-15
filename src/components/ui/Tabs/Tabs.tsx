@@ -40,7 +40,7 @@ export function Tabs<T extends string>({
       role="tablist"
       aria-label={ariaLabel}
       onKeyDown={handleKeyDown}
-      className="flex gap-6 border-b border-border px-7"
+      className="flex gap-6 border-b border-border px-4 lg:px-7"
     >
       {items.map((item) => {
         const selected = item.id === activeId

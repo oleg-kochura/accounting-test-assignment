@@ -52,25 +52,33 @@ export function EditorFooter() {
       : 'bg-border-strong'
 
   return (
-    <footer className="mt-auto flex items-center justify-between gap-3 border-t border-border px-7 py-3.5">
-      <div className="flex items-center gap-2 text-md text-muted-text">
+    <footer className="fixed right-0 bottom-0 left-0 z-10 flex items-center justify-between gap-3 border-t border-border bg-surface px-4 py-3 lg:static lg:mt-auto lg:px-7 lg:py-3.5">
+      <div className="hidden items-center gap-2 text-md text-muted-text lg:flex">
         <span
           aria-hidden="true"
           className={`h-1.5 w-1.5 rounded-full ${dotColor}`}
         />
         <span aria-live="polite">{statusText}</span>
       </div>
-      <div className="flex gap-2">
-        <Button variant="secondary" disabled={!isDirty} onClick={handleCancel}>
-          Cancel
-        </Button>
-        <Button
-          variant="primary"
-          disabled={!(isDirty && isValid)}
-          onClick={handleSave}
-        >
-          Save template
-        </Button>
+      <div className="flex w-full gap-2 lg:w-auto">
+        <div className="flex-1 [&>button]:w-full lg:flex-none lg:[&>button]:w-auto">
+          <Button
+            variant="secondary"
+            disabled={!isDirty}
+            onClick={handleCancel}
+          >
+            Cancel
+          </Button>
+        </div>
+        <div className="flex-1 [&>button]:w-full lg:flex-none lg:[&>button]:w-auto">
+          <Button
+            variant="primary"
+            disabled={!(isDirty && isValid)}
+            onClick={handleSave}
+          >
+            Save template
+          </Button>
+        </div>
       </div>
     </footer>
   )

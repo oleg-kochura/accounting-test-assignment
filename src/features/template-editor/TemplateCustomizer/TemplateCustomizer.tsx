@@ -3,17 +3,34 @@ import { EditorSidebar } from '../EditorSidebar'
 import { EditorFooter } from '../EditorFooter'
 import { InvoicePreview } from '../../invoice-preview/InvoicePreview'
 import { MOCK_INVOICE } from '../../invoice-preview/mockInvoice'
-import { useInvoiceTemplateStore } from '../../../store/useInvoiceTemplateStore'
+import {
+  selectIsDirty,
+  useInvoiceTemplateStore,
+} from '../../../store/useInvoiceTemplateStore'
 
 type MobileView = 'customize' | 'preview'
 
 export function TemplateCustomizer() {
   const draft = useInvoiceTemplateStore((s) => s.draft)
+  const isDirty = useInvoiceTemplateStore(selectIsDirty)
   const [mobileView, setMobileView] = useState<MobileView>('customize')
 
   return (
     <main className="flex min-h-screen flex-col lg:grid lg:h-screen lg:grid-cols-[520px_1fr]">
-      <div className="sticky top-0 z-10 flex items-center justify-end border-b border-border bg-surface px-4 py-2 lg:hidden">
+      <div className="sticky top-0 z-10 flex items-center justify-between gap-2 border-b border-border bg-surface px-4 py-2 lg:hidden">
+        <span
+          className={`inline-flex items-center gap-1.5 rounded-pill px-2.5 py-1.5 text-sm font-medium whitespace-nowrap ${
+            isDirty
+              ? 'bg-warn-soft text-warn-ink'
+              : 'bg-fg-soft text-muted-text'
+          }`}
+        >
+          <span
+            aria-hidden="true"
+            className={`h-1.5 w-1.5 rounded-full ${isDirty ? 'bg-warn-ink' : 'bg-border-strong'}`}
+          />
+          {isDirty ? 'Unsaved' : 'Saved'}
+        </span>
         <button
           type="button"
           onClick={() =>
@@ -64,7 +81,7 @@ export function TemplateCustomizer() {
           mobileView === 'customize' ? 'flex' : 'hidden'
         }`}
       >
-        <div className="flex items-baseline justify-between gap-3 px-7 pt-4.5 pb-2.5">
+        <div className="flex items-baseline justify-between gap-3 px-4 pt-4 pb-2.5 lg:px-7 lg:pt-4.5">
           <h1
             id="customize-title"
             className="text-3xl leading-snug font-semibold tracking-tight"
@@ -85,7 +102,7 @@ export function TemplateCustomizer() {
           mobileView === 'preview' ? 'flex' : 'hidden'
         }`}
       >
-        <div className="flex items-baseline justify-between gap-3 px-7 pt-4.5 pb-2.5">
+        <div className="flex items-baseline justify-between gap-3 px-4 pt-4 pb-2.5 lg:px-7 lg:pt-4.5">
           <h2
             id="preview-title"
             className="text-3xl leading-snug font-semibold tracking-tight"
@@ -96,7 +113,7 @@ export function TemplateCustomizer() {
             Sample invoice · figures are illustrative
           </span>
         </div>
-        <div className="flex flex-1 items-start justify-center px-10 pt-3.5 pb-12">
+        <div className="flex flex-1 items-start justify-center px-4 pt-3.5 pb-12 lg:px-10">
           <div className="w-full max-w-[760px]">
             <InvoicePreview template={draft} invoice={MOCK_INVOICE} />
           </div>

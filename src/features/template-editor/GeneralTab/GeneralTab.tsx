@@ -25,7 +25,7 @@ export function GeneralTab() {
       id="panel-general"
       aria-labelledby="tab-general"
       tabIndex={0}
-      className="px-7 pt-5 pb-6"
+      className="px-4 pt-4 pb-6 lg:px-7 lg:pt-5"
     >
       <h2 className="mb-4 text-xl leading-normal font-semibold tracking-snug">
         General branding
@@ -47,7 +47,7 @@ export function GeneralTab() {
 
         <div className="flex flex-col gap-2">
           <h3 className="text-base font-semibold">Brand colors</h3>
-          <div className="grid grid-cols-2 gap-2.5">
+          <div className="grid grid-cols-1 gap-2.5 lg:grid-cols-2">
             <ColorField
               id="hex-primary"
               label="Primary"

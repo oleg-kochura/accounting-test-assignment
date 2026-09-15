@@ -66,9 +66,11 @@ export function ColorField({
   }
 
   return (
-    <div className="flex flex-col gap-1.5 rounded-lg border border-border p-2.5 px-3">
-      <span className="text-md font-medium text-fg">{label}</span>
-      <div className="flex items-center gap-2">
+    <div className="grid grid-cols-[1fr_auto] items-center gap-x-3 rounded-lg border border-border p-2.5 px-3 lg:flex lg:flex-col lg:gap-1.5">
+      <span className="col-start-1 row-start-1 text-md font-medium text-fg">
+        {label}
+      </span>
+      <div className="col-start-2 row-start-1 row-span-2 flex items-center gap-2">
         <span
           className="relative h-11 w-11 flex-none overflow-hidden rounded-sm border border-border-strong"
           style={{ backgroundColor: value }}
@@ -91,17 +93,22 @@ export function ColorField({
           onChange={handleTextChange}
           onBlur={handleBlur}
           aria-label={`${label} color hex`}
-          className={`min-h-11 w-full rounded-sm border px-3 font-mono text-md lowercase tracking-wide text-fg outline-none focus:border-accent focus:shadow-[0_0_0_3px_var(--color-accent-soft)] ${
+          className={`min-h-11 w-28 rounded-sm border px-3 font-mono text-md lowercase tracking-wide text-fg outline-none focus:border-accent focus:shadow-[0_0_0_3px_var(--color-accent-soft)] lg:w-full ${
             invalid ? 'border-fg' : 'border-border-strong'
           }`}
         />
       </div>
       {invalid ? (
-        <span role="alert" className="text-sm font-medium text-fg">
+        <span
+          role="alert"
+          className="col-start-1 row-start-2 text-sm font-medium text-fg"
+        >
           {errorHint}
         </span>
       ) : (
-        <span className="text-sm text-muted-text">{hint}</span>
+        <span className="col-start-1 row-start-2 text-sm text-muted-text">
+          {hint}
+        </span>
       )}
     </div>
   )
