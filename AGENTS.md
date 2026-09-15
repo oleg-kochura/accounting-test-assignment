@@ -42,108 +42,13 @@ explaining why, rather than deleting it or ignoring the failure.
 There is currently no test suite. If you add one, wire it into these
 commands and update this file.
 
-## Project structure
+## Project conventions
 
-```
-src/
-  App.tsx                         # renders <TemplateCustomizer />
-  main.tsx                        # React entry point
-  index.css                       # Tailwind entry + design-token @theme block
-  types/invoiceTemplate.ts        # InvoiceTemplate data model
-  store/useInvoiceTemplateStore.ts
-  lib/                            # generic, feature-agnostic helpers
-    amount.ts                     # parse/validate/format/sanitize money input
-    id.ts                         # id generation (secure-context fallback)
-  components/ui/                  # domain-agnostic primitives
-    Button/
-    TextField/
-    ColorField/
-    Toggle/
-    Tabs/
-  features/template-editor/
-    TemplateCustomizer/           # screen shell: two panels
-    EditorSidebar/
-    GeneralTab/
-    ContentTab/                   # line items + discount form
-    LineItemsEditor/              # list of line cards, add/remove
-    LogoField/
-    PaymentMethodsRow/
-    EditorFooter/
-  features/invoice-preview/
-    InvoicePreview/
-    InvoiceHeader/
-    InvoiceMeta/
-    InvoiceParties/
-    InvoiceLineItems/
-    InvoiceTotals/
-    InvoiceFooterText/
-    calculateInvoice.ts           # combines line items + tax rates (lib/amount.ts helpers)
-    mockInvoice.ts                # fixed document data (no amounts)
-public/                           # static assets served as-is
-docs/design/                      # design specs, tokens, and HTML/CSS prototypes
-```
-
-## Code style
-
-- Formatting is enforced by Prettier (`.prettierrc.json`): no semicolons,
-  single quotes, trailing commas, 80-char print width. Don't hand-format —
-  run `npm run format` instead of manually matching style.
-- ESLint (`eslint.config.js`) extends `typescript-eslint` recommended,
-  `react-hooks`, and `react-refresh`, with `eslint-config-prettier` to avoid
-  conflicts with Prettier. Fix lint warnings rather than disabling rules
-  inline unless there's a clear reason (leave a comment if you do).
-- Prefer function components with hooks; no class components.
-- Style with Tailwind utility classes directly in JSX. Avoid new CSS files
-  unless something can't be expressed with utilities.
-- State: local component state via `useState`; cross-component/shared state
-  via a Zustand store under `src/store/`, named `use<Thing>Store.ts`
-  exporting `use<Thing>Store`. Keep store actions inside the store, not
-  spread across components.
-- Components: one folder per component, named after it
-  (`ComponentName/ComponentName.tsx` + `ComponentName/index.ts` doing
-  `export { ComponentName } from './ComponentName'`). Named exports only
-  — no default exports except `App.tsx`. Anything private to a component
-  (helpers, sub-parts) stays inside its folder and isn't re-exported from
-  the barrel; re-export a props type from the barrel only when another
-  module imports it directly.
-- TypeScript: avoid `any`; prefer explicit types on store/hook return values
-  and component props.
-
-## React performance guidelines
-
-- When writing, reviewing, or refactoring React code under `src/`, apply
-  the `vercel-react-best-practices` guidelines vendored at
-  `.claude/skills/vercel-react-best-practices/` (see `SKILL.md` for the
-  rule index, `rules/*.md` for individual rules, `AGENTS.md` for the full
-  compiled guide). In Claude Code, invoke it as a Skill; other agents
-  should just read the files directly.
-- This project is a Vite SPA, not Next.js, so skip the Next.js/RSC-only
-  rules (`server-*` App Router/server-action/RSC rules,
-  `bundle-dynamic-imports` via `next/dynamic`, `rendering-hydration-*`,
-  etc.). Focus on what applies to a client-only React app: bundle size,
-  re-render, rendering, and JS performance categories.
-
-## Git conventions
-
-- Default branch: `main`. It is **protected**: direct pushes are rejected
-  (also for admins), history is linear, force-pushes and deletions are
-  blocked. All changes go through a pull request whose `checks` CI job is
-  green and up to date with `main`. Workflow: create a branch
-  (`feat/<short-name>`, `fix/<short-name>`, `chore/<short-name>`) → commit →
-  push → `gh pr create` → merge (squash or rebase) once CI passes. No
-  approving reviews are required, so the author can merge their own PR.
-- Commit messages follow Conventional Commits, enforced by commitlint
-  (`@commitlint/config-conventional`): `<type>: <short imperative summary>`
-  with lowercase summary, no trailing period. Common types: `feat`, `fix`,
-  `chore`, `refactor`, `docs`, `style`, `test`, `ci`, `build`. Body only if
-  the change needs explaining. Example: `feat: add invoice list page`.
-- Git hooks (husky) run automatically: `pre-commit` → lint-staged (ESLint
-  `--fix` + Prettier on staged files), `commit-msg` → commitlint,
-  `pre-push` → `npm run typecheck && npm run knip`. Don't bypass them with
-  `--no-verify`; fix the underlying issue instead.
-- Do not commit or push unless the user explicitly asks — prepare the
-  change and let them review first, unless told otherwise for the session.
-- Never commit `.env`, secrets, or `node_modules/` (already gitignored).
+- Architecture, folder structure, code style (including types
+  organization), and React performance guidelines: see
+  [`docs/conventions/architecture.md`](docs/conventions/architecture.md).
+- Git workflow (branching, commits, PRs, hooks): see
+  [`docs/conventions/git-workflow.md`](docs/conventions/git-workflow.md).
 
 ## Notes for agents
 
@@ -151,6 +56,3 @@ docs/design/                      # design specs, tokens, and HTML/CSS prototype
   `oleg-kochura/accounting-test-assignment`. Don't commit anything that
   shouldn't be public (credentials, personal data, real accounting data).
 - Node.js: developed against Node 22.x.
-- Tailwind v4 has no config file by default — don't create
-  `tailwind.config.js` unless you actually need custom theme values; add
-  `@theme` blocks in `src/index.css` instead if so.
