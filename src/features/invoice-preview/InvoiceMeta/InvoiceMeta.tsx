@@ -1,15 +1,9 @@
+import { MetaLabel } from './components/MetaLabel'
+
 export interface InvoiceMetaProps {
   invoiceNumber: string
   dateOfIssue: string
   dueDate: string
-}
-
-function MetaLabel({ children }: { children: string }) {
-  return (
-    <span className="mb-1 block text-xs font-semibold tracking-widest text-(--secondary) uppercase">
-      {children}
-    </span>
-  )
 }
 
 export function InvoiceMeta({

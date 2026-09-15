@@ -1,29 +1,9 @@
-import { formatMoney } from '../../../lib/amount'
+import { formatMoney } from 'lib/amount'
 import type { CalculatedLine } from '../calculateInvoice'
+import { Th } from './components/Th'
 
 export interface InvoiceLineItemsProps {
   lines: CalculatedLine[]
-}
-
-function Th({
-  children,
-  width,
-  align,
-}: {
-  children: string
-  width: string
-  align?: 'right'
-}) {
-  return (
-    <th
-      style={{ width }}
-      className={`border-b border-(--secondary) pb-2 ${align === 'right' ? 'text-right' : 'text-left'}`}
-    >
-      <span className="text-xs font-semibold tracking-widest text-(--secondary) uppercase">
-        {children}
-      </span>
-    </th>
-  )
 }
 
 export function InvoiceLineItems({ lines }: InvoiceLineItemsProps) {
