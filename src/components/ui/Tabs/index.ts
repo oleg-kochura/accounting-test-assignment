@@ -1,2 +1,2 @@
-export { Tabs } from './Tabs'
+export { Tabs, TabsContent } from './Tabs'
 export type { TabItem } from './Tabs'

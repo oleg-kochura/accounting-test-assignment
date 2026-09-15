@@ -20,13 +20,7 @@ export function GeneralTab() {
   const nameInvalid = name.trim().length === 0
 
   return (
-    <div
-      role="tabpanel"
-      id="panel-general"
-      aria-labelledby="tab-general"
-      tabIndex={0}
-      className="px-4 pt-4 pb-6 lg:px-7 lg:pt-5"
-    >
+    <div className="px-4 pt-4 pb-6 lg:px-7 lg:pt-5">
       <h2 className="mb-4 text-xl leading-normal font-semibold tracking-snug">
         General branding
       </h2>

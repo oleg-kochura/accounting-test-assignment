@@ -1,4 +1,4 @@
-import { Tabs, type TabItem } from '../../../components/ui/Tabs'
+import { Tabs, TabsContent, type TabItem } from '../../../components/ui/Tabs'
 import { useInvoiceTemplateStore } from '../../../store/useInvoiceTemplateStore'
 import type { EditorTab } from '../../../types/invoiceTemplate'
 import { GeneralTab } from '../GeneralTab'
@@ -53,11 +53,17 @@ export function EditorSidebar() {
     <div className="flex min-h-0 flex-1 flex-col pb-24 lg:overflow-y-auto lg:pb-0">
       <Tabs
         items={TAB_ITEMS}
-        activeId={activeTab}
-        onChange={setActiveTab}
+        value={activeTab}
+        onValueChange={setActiveTab}
         aria-label="Template sections"
-      />
-      {activeTab === 'general' ? <GeneralTab /> : <ContentTab />}
+      >
+        <TabsContent value="general">
+          <GeneralTab />
+        </TabsContent>
+        <TabsContent value="content">
+          <ContentTab />
+        </TabsContent>
+      </Tabs>
     </div>
   )
 }
