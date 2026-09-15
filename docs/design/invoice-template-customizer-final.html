@@ -1759,7 +1759,7 @@
       const isValid = () => state.draft.name.trim().length > 0
 
       const HEX = /^#[0-9a-fA-F]{6}$/
-      const MAX_BYTES = 1024 * 1024
+      const MAX_BYTES = 10 * 1024 * 1024
       const TYPES = ['image/png', 'image/jpeg', 'image/svg+xml', 'image/webp']
 
       const $ = (id) => document.getElementById(id)
@@ -1854,7 +1854,7 @@
           browse.addEventListener('click', () => el.file.click())
           el.logoText.replaceChildren(
             line('l1', 'Drop a logo here or ', browse),
-            line('l2', 'PNG, JPG, SVG or WebP · up to 1 MB' + hidden),
+            line('l2', 'PNG, JPG, SVG or WebP · up to 10 MB' + hidden),
           )
         }
       }
@@ -2029,7 +2029,7 @@
           )
         if (file.size > MAX_BYTES)
           return setLogoError(
-            'File is ' + formatBytes(file.size) + ' — the limit is 1 MB.',
+            'File is ' + formatBytes(file.size) + ' — the limit is 10 MB.',
           )
         const reader = new FileReader()
         reader.onerror = () =>

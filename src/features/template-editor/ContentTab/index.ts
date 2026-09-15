@@ -1,0 +1,1 @@
+export { ContentTab } from './ContentTab'

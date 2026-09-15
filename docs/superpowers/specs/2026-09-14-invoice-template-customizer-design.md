@@ -206,7 +206,7 @@ visible on first load.
 
 - `<input type="file" accept="image/png,image/jpeg,image/svg+xml,image/webp">`
   plus drag-and-drop onto the logo preview area.
-- Max size 1 MB. Reads the file with `FileReader.readAsDataURL` and calls
+- Max size 10 MB. Reads the file with `FileReader.readAsDataURL` and calls
   `updateBranding({ logo: { name, dataUrl } })`.
 - Rejected file (wrong type or too large): error text under the field,
   state unchanged.
@@ -260,7 +260,7 @@ done:
    a valid hex applies immediately.
 4. Toggle off hides the logo corner; toggle on with no file shows the "BC"
    placeholder; uploading a PNG shows it; Remove returns the placeholder.
-5. Uploading a 2 MB file or a PDF shows an error and keeps the previous
+5. Uploading a 15 MB file or a PDF shows an error and keeps the previous
    logo.
 6. Save/Cancel are disabled when nothing changed; after edits Cancel
    restores the saved state; Save keeps the edits, shows the confirmation
