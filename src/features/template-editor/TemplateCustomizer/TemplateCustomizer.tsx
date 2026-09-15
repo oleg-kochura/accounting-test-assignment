@@ -7,6 +7,8 @@ import {
   selectIsDirty,
   useInvoiceTemplateStore,
 } from '../../../store/useInvoiceTemplateStore'
+import EyeIcon from '../../../assets/icons/eye.svg?react'
+import PencilIcon from '../../../assets/icons/pencil.svg?react'
 
 type MobileView = 'customize' | 'preview'
 
@@ -40,35 +42,12 @@ export function TemplateCustomizer() {
         >
           {mobileView === 'customize' ? (
             <>
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={1.8}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="h-[15px] w-[15px] flex-none"
-                aria-hidden="true"
-              >
-                <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z" />
-                <circle cx="12" cy="12" r="3" />
-              </svg>
+              <EyeIcon className="h-[15px] w-[15px] flex-none" />
               <span>Preview</span>
             </>
           ) : (
             <>
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={1.8}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="h-[15px] w-[15px] flex-none"
-                aria-hidden="true"
-              >
-                <path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z" />
-              </svg>
+              <PencilIcon className="h-[15px] w-[15px] flex-none" />
               <span>Edit</span>
             </>
           )}

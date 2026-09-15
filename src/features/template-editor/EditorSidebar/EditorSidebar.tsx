@@ -3,44 +3,19 @@ import { useInvoiceTemplateStore } from '../../../store/useInvoiceTemplateStore'
 import type { EditorTab } from '../../../types/invoiceTemplate'
 import { GeneralTab } from '../GeneralTab'
 import { ContentTab } from '../ContentTab'
+import GeneralIcon from '../../../assets/icons/general.svg?react'
+import ContentIcon from '../../../assets/icons/content.svg?react'
 
 const TAB_ITEMS: TabItem<EditorTab>[] = [
   {
     id: 'general',
     label: 'General',
-    icon: (
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={1.8}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="h-4 w-4 flex-none"
-        aria-hidden="true"
-      >
-        <path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6" />
-      </svg>
-    ),
+    icon: <GeneralIcon className="h-4 w-4 flex-none" />,
   },
   {
     id: 'content',
     label: 'Content',
-    icon: (
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={1.8}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="h-4 w-4 flex-none"
-        aria-hidden="true"
-      >
-        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-        <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" />
-      </svg>
-    ),
+    icon: <ContentIcon className="h-4 w-4 flex-none" />,
   },
 ]
 
