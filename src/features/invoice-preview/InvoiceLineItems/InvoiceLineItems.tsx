@@ -1,9 +1,5 @@
 import { formatMoney } from '../../../lib/amount'
-import type { CalculatedLine } from '../calculateInvoice'
-
-export interface InvoiceLineItemsProps {
-  lines: CalculatedLine[]
-}
+import type { InvoiceLineItemsProps } from './types'
 
 function Th({
   children,

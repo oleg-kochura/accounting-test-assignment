@@ -1,15 +1,7 @@
 import { useState, type ChangeEvent, type FocusEvent } from 'react'
+import type { ColorFieldProps } from './types'
 
 const HEX_PATTERN = /^#[0-9a-fA-F]{6}$/
-
-export interface ColorFieldProps {
-  id: string
-  label: string
-  hint: string
-  errorHint: string
-  value: string
-  onChange: (hex: string) => void
-}
 
 export function ColorField({
   id,

@@ -1,9 +1,4 @@
-import type { InvoiceParty } from '../mockInvoice'
-
-export interface InvoicePartiesProps {
-  seller: InvoiceParty
-  billedTo: InvoiceParty
-}
+import type { InvoicePartiesProps } from './types'
 
 export function InvoiceParties({ seller, billedTo }: InvoicePartiesProps) {
   return (

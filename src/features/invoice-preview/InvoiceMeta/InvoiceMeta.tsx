@@ -1,8 +1,4 @@
-export interface InvoiceMetaProps {
-  invoiceNumber: string
-  dateOfIssue: string
-  dueDate: string
-}
+import type { InvoiceMetaProps } from './types'
 
 function MetaLabel({ children }: { children: string }) {
   return (

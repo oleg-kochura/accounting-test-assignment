@@ -7,8 +7,7 @@ import {
   selectIsDirty,
   useInvoiceTemplateStore,
 } from '../../../store/useInvoiceTemplateStore'
-
-type MobileView = 'customize' | 'preview'
+import type { MobileView } from './types'
 
 export function TemplateCustomizer() {
   const draft = useInvoiceTemplateStore((s) => s.draft)

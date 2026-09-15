@@ -1,12 +1,5 @@
 import { Switch } from 'radix-ui'
-import type { ReactNode } from 'react'
-
-export interface ToggleProps {
-  id?: string
-  checked: boolean
-  onChange: (checked: boolean) => void
-  children: ReactNode
-}
+import type { ToggleProps } from './types'
 
 export function Toggle({ id, checked, onChange, children }: ToggleProps) {
   return (

@@ -1,16 +1,4 @@
-import type { ButtonHTMLAttributes, ReactNode } from 'react'
-
-type ButtonVariant = 'primary' | 'secondary' | 'ghost'
-type ButtonSize = 'md' | 'sm'
-
-export interface ButtonProps extends Omit<
-  ButtonHTMLAttributes<HTMLButtonElement>,
-  'className'
-> {
-  variant?: ButtonVariant
-  size?: ButtonSize
-  children: ReactNode
-}
+import type { ButtonProps, ButtonVariant, ButtonSize } from './types'
 
 const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   primary: 'bg-accent-ink text-surface border-accent-ink hover:brightness-90',

@@ -1,9 +1,4 @@
-import type { LogoSource } from '../../../types/invoiceTemplate'
-
-export interface InvoiceHeaderProps {
-  showLogo: boolean
-  logo: LogoSource
-}
+import type { InvoiceHeaderProps } from './types'
 
 export function InvoiceHeader({ showLogo, logo }: InvoiceHeaderProps) {
   return (

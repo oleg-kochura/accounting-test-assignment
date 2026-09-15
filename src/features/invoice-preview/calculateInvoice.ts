@@ -1,29 +1,7 @@
 import type { ContentSettings } from '../../types/invoiceTemplate'
-import type { InvoiceData } from './mockInvoice'
+import type { InvoiceData } from './types'
+import type { CalculatedInvoice } from './types/calculateInvoice.types'
 import { parseAmount, round2 } from '../../lib/amount'
-
-export interface CalculatedLine {
-  id: string
-  item: string
-  description: string
-  rate: number
-  total: number
-}
-
-interface CalculatedTax {
-  label: string
-  amount: number
-}
-
-export interface CalculatedInvoice {
-  lines: CalculatedLine[]
-  subtotal: number
-  discount: number
-  taxes: CalculatedTax[]
-  total: number
-  paymentMade: number
-  balanceDue: number
-}
 
 export function calculateInvoice(
   content: ContentSettings,

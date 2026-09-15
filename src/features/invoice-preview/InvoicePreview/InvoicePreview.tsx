@@ -1,6 +1,5 @@
 import type { CSSProperties } from 'react'
-import type { InvoiceTemplate } from '../../../types/invoiceTemplate'
-import type { InvoiceData } from '../mockInvoice'
+import type { InvoicePreviewProps } from './types'
 import { calculateInvoice } from '../calculateInvoice'
 import { formatMoney } from '../../../lib/amount'
 import { InvoiceHeader } from '../InvoiceHeader'
@@ -9,11 +8,6 @@ import { InvoiceParties } from '../InvoiceParties'
 import { InvoiceLineItems } from '../InvoiceLineItems'
 import { InvoiceTotals } from '../InvoiceTotals'
 import { InvoiceFooterText } from '../InvoiceFooterText'
-
-export interface InvoicePreviewProps {
-  template: InvoiceTemplate
-  invoice: InvoiceData
-}
 
 export function InvoicePreview({ template, invoice }: InvoicePreviewProps) {
   const style = {

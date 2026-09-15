@@ -1,7 +1,4 @@
-export interface InvoiceFooterTextProps {
-  termsAndConditions: string
-  statement: string
-}
+import type { InvoiceFooterTextProps } from './types'
 
 export function InvoiceFooterText({
   termsAndConditions,

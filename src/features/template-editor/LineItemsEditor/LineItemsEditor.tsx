@@ -2,14 +2,9 @@ import { Button } from '../../../components/ui/Button'
 import { TextField } from '../../../components/ui/TextField'
 import { isValidAmount, sanitizeAmountInput } from '../../../lib/amount'
 import { useInvoiceTemplateStore } from '../../../store/useInvoiceTemplateStore'
-import type { LineItemDraft } from '../../../types/invoiceTemplate'
+import type { LineItemCardProps } from './types'
 
 const AMOUNT_ERROR = 'Enter a non-negative number.'
-
-interface LineItemCardProps {
-  line: LineItemDraft
-  removable: boolean
-}
 
 function LineItemCard({ line, removable }: LineItemCardProps) {
   const updateLineItem = useInvoiceTemplateStore((s) => s.updateLineItem)
