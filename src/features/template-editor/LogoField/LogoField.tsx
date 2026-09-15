@@ -99,7 +99,7 @@ export function LogoField() {
           type="button"
           title="Choose a logo file"
           onClick={openFilePicker}
-          className={`grid h-18 w-18 place-items-center overflow-hidden rounded-sm ${
+          className={`grid h-18 w-18 cursor-pointer place-items-center overflow-hidden rounded-sm ${
             logo ? 'border border-border bg-fg-softer' : ''
           }`}
         >
@@ -136,7 +136,7 @@ export function LogoField() {
                 <button
                   type="button"
                   onClick={openFilePicker}
-                  className="font-medium text-fg underline decoration-border-strong underline-offset-3 hover:decoration-fg"
+                  className="cursor-pointer font-medium text-fg underline decoration-border-strong underline-offset-3 hover:decoration-fg"
                 >
                   browse
                 </button>

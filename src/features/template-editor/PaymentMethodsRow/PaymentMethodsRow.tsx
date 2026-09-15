@@ -23,7 +23,7 @@ export function PaymentMethodsRow() {
       <a
         href="#"
         onClick={(e) => e.preventDefault()}
-        className="font-medium text-fg underline decoration-border-strong underline-offset-3 hover:decoration-fg"
+        className="cursor-pointer font-medium text-fg underline decoration-border-strong underline-offset-3 hover:decoration-fg"
       >
         Manage
       </a>

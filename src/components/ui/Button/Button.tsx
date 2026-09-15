@@ -34,7 +34,7 @@ export function Button({
   return (
     <button
       type={type}
-      className={`inline-flex items-center justify-center gap-2 rounded-sm border font-medium tracking-normal transition-colors duration-150 active:translate-y-px disabled:cursor-not-allowed disabled:opacity-45 ${VARIANT_CLASSES[variant]} ${SIZE_CLASSES[size]}`}
+      className={`inline-flex cursor-pointer items-center justify-center gap-2 rounded-sm border font-medium tracking-normal transition-colors duration-150 active:translate-y-px disabled:cursor-not-allowed disabled:opacity-45 ${VARIANT_CLASSES[variant]} ${SIZE_CLASSES[size]}`}
       {...rest}
     >
       {children}

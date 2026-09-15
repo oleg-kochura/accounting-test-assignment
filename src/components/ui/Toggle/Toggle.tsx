@@ -15,7 +15,7 @@ export function Toggle({ id, checked, onChange, children }: ToggleProps) {
       role="switch"
       aria-checked={checked}
       onClick={() => onChange(!checked)}
-      className="inline-flex min-h-9 items-center gap-2.5 rounded-sm bg-transparent px-1 text-md font-medium whitespace-nowrap text-fg"
+      className="inline-flex min-h-9 cursor-pointer items-center gap-2.5 rounded-sm bg-transparent px-1 text-md font-medium whitespace-nowrap text-fg"
     >
       <span
         aria-hidden="true"

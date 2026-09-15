@@ -58,7 +58,7 @@ export function Tabs<T extends string>({
             aria-controls={`panel-${item.id}`}
             tabIndex={selected ? 0 : -1}
             onClick={() => onChange(item.id)}
-            className={`-mb-px flex min-h-11 items-center gap-2 border-b-2 px-0.5 text-base font-medium transition-colors duration-150 ${
+            className={`-mb-px flex min-h-11 cursor-pointer items-center gap-2 border-b-2 px-0.5 text-base font-medium transition-colors duration-150 ${
               selected
                 ? 'border-fg text-fg'
                 : 'border-transparent text-muted-text hover:border-border-strong hover:text-fg'
@@ -67,7 +67,7 @@ export function Tabs<T extends string>({
             {item.icon}
             {item.label}
             {item.badge ? (
-              <span className="ml-0.5 rounded-pill border border-border px-1.5 py-px text-2xs font-semibold tracking-widest text-muted-text uppercase">
+              <span className="ml-0.5 rounded-pill border border-border px-1 py-px text-[8px] leading-[1.4] font-semibold tracking-wide text-muted-text uppercase">
                 {item.badge}
               </span>
             ) : null}
