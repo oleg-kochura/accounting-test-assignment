@@ -74,6 +74,20 @@ docs/design/           # design specs, tokens, and HTML/CSS prototypes
 - TypeScript: avoid `any`; prefer explicit types on store/hook return values
   and component props.
 
+## React performance guidelines
+
+- When writing, reviewing, or refactoring React code under `src/`, apply
+  the `vercel-react-best-practices` guidelines vendored at
+  `.claude/skills/vercel-react-best-practices/` (see `SKILL.md` for the
+  rule index, `rules/*.md` for individual rules, `AGENTS.md` for the full
+  compiled guide). In Claude Code, invoke it as a Skill; other agents
+  should just read the files directly.
+- This project is a Vite SPA, not Next.js, so skip the Next.js/RSC-only
+  rules (`server-*` App Router/server-action/RSC rules,
+  `bundle-dynamic-imports` via `next/dynamic`, `rendering-hydration-*`,
+  etc.). Focus on what applies to a client-only React app: bundle size,
+  re-render, rendering, and JS performance categories.
+
 ## Git conventions
 
 - Default branch: `main`. It is **protected**: direct pushes are rejected
