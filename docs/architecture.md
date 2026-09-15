@@ -40,6 +40,18 @@ current list rather than duplicating it here.
   if it's a primitive, otherwise the top level of the owning feature.
 - Prefer function components with hooks; no class components.
 
+### Imports
+
+- Absolute imports are available for every top-level `src/` folder as bare
+  specifiers — `assets/*`, `components/*`, `features/*`, `lib/*`, `store/*`,
+  `types/*` — plus a catch-all `src/*`. Configured in `vite.config.ts`
+  (`resolve.alias`) and mirrored in `tsconfig.app.json`
+  (`compilerOptions.paths`); keep the two in sync, including when adding a
+  new top-level `src/` folder.
+- Use an alias for anything crossing into another top-level `src/` folder
+  or another feature. Keep relative imports (`./`, `../`) for sibling files
+  within the same feature or component folder.
+
 ### Styling
 
 - Style with Tailwind utility classes directly in JSX. Avoid new CSS
