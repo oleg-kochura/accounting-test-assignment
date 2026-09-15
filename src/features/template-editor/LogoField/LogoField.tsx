@@ -1,6 +1,6 @@
 import { useRef, useState, type ChangeEvent, type DragEvent } from 'react'
-import { Button } from '../../../components/ui/Button'
-import { useInvoiceTemplateStore } from '../../../store/useInvoiceTemplateStore'
+import { Button } from 'components/ui/Button'
+import { useInvoiceTemplateStore } from 'store/useInvoiceTemplateStore'
 
 const ACCEPTED_TYPES = [
   'image/png',

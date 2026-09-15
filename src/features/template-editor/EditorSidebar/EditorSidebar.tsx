@@ -1,10 +1,10 @@
-import { Tabs, TabsContent, type TabItem } from '../../../components/ui/Tabs'
-import { useInvoiceTemplateStore } from '../../../store/useInvoiceTemplateStore'
-import type { EditorTab } from '../../../types/invoiceTemplate'
+import { Tabs, TabsContent, type TabItem } from 'components/ui/Tabs'
+import { useInvoiceTemplateStore } from 'store/useInvoiceTemplateStore'
+import type { EditorTab } from 'types/invoiceTemplate'
 import { GeneralTab } from '../GeneralTab'
 import { ContentTab } from '../ContentTab'
-import GeneralIcon from '../../../assets/icons/general.svg?react'
-import ContentIcon from '../../../assets/icons/content.svg?react'
+import GeneralIcon from 'assets/icons/general.svg?react'
+import ContentIcon from 'assets/icons/content.svg?react'
 
 const TAB_ITEMS: TabItem<EditorTab>[] = [
   {

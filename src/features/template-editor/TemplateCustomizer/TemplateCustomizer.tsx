@@ -1,14 +1,14 @@
 import { useState } from 'react'
 import { EditorSidebar } from '../EditorSidebar'
 import { EditorFooter } from '../EditorFooter'
-import { InvoicePreview } from '../../invoice-preview/InvoicePreview'
-import { MOCK_INVOICE } from '../../invoice-preview/mockInvoice'
+import { InvoicePreview } from 'features/invoice-preview/InvoicePreview'
+import { MOCK_INVOICE } from 'features/invoice-preview/mockInvoice'
 import {
   selectIsDirty,
   useInvoiceTemplateStore,
-} from '../../../store/useInvoiceTemplateStore'
-import EyeIcon from '../../../assets/icons/eye.svg?react'
-import PencilIcon from '../../../assets/icons/pencil.svg?react'
+} from 'store/useInvoiceTemplateStore'
+import EyeIcon from 'assets/icons/eye.svg?react'
+import PencilIcon from 'assets/icons/pencil.svg?react'
 
 type MobileView = 'customize' | 'preview'
 

@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
-import { Button } from '../../../components/ui/Button'
+import { Button } from 'components/ui/Button'
 import {
   selectIsDirty,
   selectIsValid,
   useInvoiceTemplateStore,
-} from '../../../store/useInvoiceTemplateStore'
+} from 'store/useInvoiceTemplateStore'
 
 const CONFIRMATION_MS = 2500
 
