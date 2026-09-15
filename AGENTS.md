@@ -61,7 +61,8 @@ src/
     TemplateCustomizer/           # screen shell: two panels
     EditorSidebar/
     GeneralTab/
-    ContentTab/
+    ContentTab/                   # line items + discount form
+    LineItemsEditor/              # list of line cards, add/remove
     LogoField/
     PaymentMethodsRow/
     EditorFooter/
@@ -73,7 +74,8 @@ src/
     InvoiceLineItems/
     InvoiceTotals/
     InvoiceFooterText/
-    mockInvoice.ts                # plain data module, not a component
+    calculateInvoice.ts           # parse/validate/compute/format money
+    mockInvoice.ts                # fixed document data (no amounts)
 public/                           # static assets served as-is
 docs/design/                      # design specs, tokens, and HTML/CSS prototypes
 ```
