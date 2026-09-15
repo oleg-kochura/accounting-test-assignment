@@ -11,9 +11,21 @@ export interface BrandingSettings {
   logo: LogoSource
 }
 
-// Intentionally empty. Reserved for the Content tab; fields are added
-// together with the tab's form, not in advance.
-type ContentSettings = Record<never, never>
+export interface LineItemDraft {
+  id: string
+  item: string
+  description: string
+  // Numeric fields are kept as the raw input text so a controlled input
+  // can hold '' or '1.' while the user types; parsing happens in
+  // calculateInvoice.ts.
+  quantity: string
+  rate: string
+}
+
+export interface ContentSettings {
+  lineItems: LineItemDraft[]
+  discount: string
+}
 
 export interface InvoiceTemplate {
   name: string
@@ -31,5 +43,17 @@ export const DEFAULT_TEMPLATE: InvoiceTemplate = {
     showLogo: true,
     logo: null,
   },
-  content: {},
+  content: {
+    lineItems: [
+      {
+        // Fixed id (not randomUUID) so saved and draft start identical.
+        id: 'default-line',
+        item: 'Web development',
+        description: 'Website development with content and SEO optimization',
+        quantity: '1',
+        rate: '1000',
+      },
+    ],
+    discount: '0',
+  },
 }
