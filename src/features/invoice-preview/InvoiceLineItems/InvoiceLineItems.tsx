@@ -1,7 +1,8 @@
-import type { InvoiceLineItem } from '../mockInvoice'
+import { formatMoney } from '../../../lib/amount'
+import type { CalculatedLine } from '../calculateInvoice'
 
 export interface InvoiceLineItemsProps {
-  items: InvoiceLineItem[]
+  lines: CalculatedLine[]
 }
 
 function Th({
@@ -25,7 +26,7 @@ function Th({
   )
 }
 
-export function InvoiceLineItems({ items }: InvoiceLineItemsProps) {
+export function InvoiceLineItems({ lines }: InvoiceLineItemsProps) {
   return (
     <table className="w-full border-collapse">
       <thead>
@@ -41,8 +42,8 @@ export function InvoiceLineItems({ items }: InvoiceLineItemsProps) {
         </tr>
       </thead>
       <tbody>
-        {items.map((line) => (
-          <tr key={line.item}>
+        {lines.map((line) => (
+          <tr key={line.id}>
             <td className="border-b border-border py-3 align-top">
               {line.item}
             </td>
@@ -50,10 +51,10 @@ export function InvoiceLineItems({ items }: InvoiceLineItemsProps) {
               {line.description}
             </td>
             <td className="border-b border-border py-3 text-right align-top font-mono tabular-nums">
-              {line.rate}
+              {formatMoney(line.rate)}
             </td>
             <td className="border-b border-border py-3 text-right align-top font-mono tabular-nums">
-              {line.total}
+              {formatMoney(line.total)}
             </td>
           </tr>
         ))}

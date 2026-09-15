@@ -774,6 +774,30 @@
         margin-bottom: var(--space-1);
       }
 
+      /* ─── component: Line items editor (Content tab) ─────────────────── */
+      .line-items {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-3);
+      }
+      .line-card {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-3);
+        border: var(--border-w) solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-4);
+      }
+      .line-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-2-5);
+      }
+      .line-foot {
+        display: flex;
+        justify-content: flex-end;
+      }
+
       /* ─── component: editor footer (status + actions) ────────────────── */
       .pane-foot {
         position: sticky;
@@ -1370,7 +1394,6 @@
                 <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" />
               </svg>
               Content
-              <span class="soon">Soon</span>
             </button>
           </nav>
 
@@ -1545,7 +1568,7 @@
             </form>
           </div>
 
-          <!-- Content tab (placeholder) -->
+          <!-- Content tab -->
           <div
             class="tabpanel"
             role="tabpanel"
@@ -1554,11 +1577,49 @@
             hidden
             data-od-id="content-tab"
           >
-            <div class="placeholder">
-              <strong>Coming soon</strong>
-              Content settings are not available yet. Your General changes are
-              kept while you look around.
-            </div>
+            <h2 class="section-title">Invoice content</h2>
+            <form class="form" id="form-content" novalidate>
+              <div class="group" data-od-id="group-line-items">
+                <div class="group-head">
+                  <h3>Line items</h3>
+                  <button
+                    class="btn btn-secondary btn-sm"
+                    type="button"
+                    id="btn-add-line"
+                    data-od-id="add-line-item"
+                  >
+                    Add item
+                  </button>
+                </div>
+                <div
+                  class="line-items"
+                  id="line-items"
+                  data-od-id="line-items-list"
+                ></div>
+              </div>
+
+              <div
+                class="field"
+                id="field-discount"
+                data-od-id="field-discount"
+              >
+                <label for="discount">Discount</label>
+                <input
+                  class="input"
+                  id="discount"
+                  name="discount"
+                  type="text"
+                  inputmode="decimal"
+                  autocomplete="off"
+                  spellcheck="false"
+                  placeholder="0.00"
+                />
+                <span class="hint">Applied before tax.</span>
+                <span class="error" role="alert"
+                  >Enter a non-negative amount.</span
+                >
+              </div>
+            </form>
           </div>
         </div>
 
@@ -1673,43 +1734,14 @@
                       </th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <tr>
-                      <td>Web development</td>
-                      <td class="desc">
-                        Website development with content and SEO optimization
-                      </td>
-                      <td class="r num">1</td>
-                      <td class="r num">$1000.00</td>
-                    </tr>
-                  </tbody>
+                  <tbody id="inv-lines"></tbody>
                 </table>
 
-                <div class="inv-totals" data-od-id="invoice-totals">
-                  <div class="tot">
-                    <span>Subtotal</span><span class="num">630.00</span>
-                  </div>
-                  <div class="tot">
-                    <span>Discount</span><span class="num">0.00</span>
-                  </div>
-                  <div class="tot">
-                    <span>Sample Tax1 (4.70%)</span
-                    ><span class="num">11.75</span>
-                  </div>
-                  <div class="tot">
-                    <span>Sample Tax2 (7.00%)</span
-                    ><span class="num">21.74</span>
-                  </div>
-                  <div class="tot strong">
-                    <span>Total</span><span class="num">$662.75</span>
-                  </div>
-                  <div class="tot">
-                    <span>Payment made</span><span class="num">100.00</span>
-                  </div>
-                  <div class="tot strong">
-                    <span>Balance due</span><span class="num">$562.75</span>
-                  </div>
-                </div>
+                <div
+                  class="inv-totals"
+                  id="invoice-totals"
+                  data-od-id="invoice-totals"
+                ></div>
 
                 <footer class="inv-foot" data-od-id="invoice-footer-text">
                   <div>
@@ -1746,7 +1778,19 @@
           showLogo: true,
           logo: null,
         },
-        content: {},
+        content: {
+          lineItems: [
+            {
+              id: 'default-line',
+              item: 'Web development',
+              description:
+                'Website development with content and SEO optimization',
+              quantity: '1',
+              rate: '1000',
+            },
+          ],
+          discount: '0',
+        },
       }
       const clone = (o) => JSON.parse(JSON.stringify(o))
       const state = {
@@ -1756,11 +1800,72 @@
       }
       const isDirty = () =>
         JSON.stringify(state.draft) !== JSON.stringify(state.saved)
-      const isValid = () => state.draft.name.trim().length > 0
+      const isValid = () =>
+        state.draft.name.trim().length > 0 &&
+        isValidAmount(state.draft.content.discount) &&
+        state.draft.content.lineItems.every(
+          (l) => isValidAmount(l.quantity) && isValidAmount(l.rate),
+        )
 
       const HEX = /^#[0-9a-fA-F]{6}$/
-      const MAX_BYTES = 10 * 1024 * 1024
+      const MAX_BYTES = 1024 * 1024
       const TYPES = ['image/png', 'image/jpeg', 'image/svg+xml', 'image/webp']
+
+      // ─── invoice calculation (fixed tax rates + payment made from the reference) ───
+      const INVOICE_TAXES = [
+        { label: 'Sample Tax1 (4.70%)', rate: 0.047 },
+        { label: 'Sample Tax2 (7.00%)', rate: 0.07 },
+      ]
+      const PAYMENT_MADE = 100
+      const MONEY = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+      })
+      const round2 = (n) => Math.round(n * 100) / 100
+      function parseAmount(raw) {
+        const n = Number(String(raw).trim())
+        return Number.isFinite(n) && n > 0 ? n : 0
+      }
+      function isValidAmount(raw) {
+        const v = String(raw).trim()
+        if (v === '') return false
+        const n = Number(v)
+        return Number.isFinite(n) && n >= 0
+      }
+      function formatMoney(v) {
+        return MONEY.format(v)
+      }
+      function calculateInvoice(content) {
+        const lines = content.lineItems.map((l) => {
+          const rate = parseAmount(l.rate)
+          const total = round2(parseAmount(l.quantity) * rate)
+          return {
+            id: l.id,
+            item: l.item,
+            description: l.description,
+            rate,
+            total,
+          }
+        })
+        const subtotal = round2(lines.reduce((s, l) => s + l.total, 0))
+        const discount = parseAmount(content.discount)
+        const taxBase = round2(subtotal - discount)
+        const taxes = INVOICE_TAXES.map((t) => ({
+          label: t.label,
+          amount: round2(taxBase * t.rate),
+        }))
+        const total = round2(taxBase + taxes.reduce((s, t) => s + t.amount, 0))
+        const balanceDue = round2(total - PAYMENT_MADE)
+        return {
+          lines,
+          subtotal,
+          discount,
+          taxes,
+          total,
+          paymentMade: PAYMENT_MADE,
+          balanceDue,
+        }
+      }
 
       const $ = (id) => document.getElementById(id)
       const el = {
@@ -1790,6 +1895,12 @@
         btnSave: $('btn-save'),
         paper: $('paper'),
         invLogo: $('inv-logo'),
+        invLines: $('inv-lines'),
+        invTotals: $('invoice-totals'),
+        lineItems: $('line-items'),
+        btnAddLine: $('btn-add-line'),
+        discount: $('discount'),
+        fieldDiscount: $('field-discount'),
       }
 
       function placeholderLogo() {
@@ -1854,9 +1965,154 @@
           browse.addEventListener('click', () => el.file.click())
           el.logoText.replaceChildren(
             line('l1', 'Drop a logo here or ', browse),
-            line('l2', 'PNG, JPG, SVG or WebP · up to 10 MB' + hidden),
+            line('l2', 'PNG, JPG, SVG or WebP · up to 1 MB' + hidden),
           )
         }
+      }
+
+      // ─── Content tab: line items editor ───
+      function buildLineCard(l, count) {
+        const id = l.id
+        const card = document.createElement('div')
+        card.className = 'line-card'
+        card.dataset.lineId = id
+        card.innerHTML = `
+        <div class="field">
+          <label for="item-${id}">Item</label>
+          <input class="input" data-field="item" id="item-${id}" type="text" autocomplete="off" spellcheck="false" placeholder="e.g. Web development" />
+        </div>
+        <div class="field">
+          <label for="description-${id}">Description</label>
+          <input class="input" data-field="description" id="description-${id}" type="text" autocomplete="off" spellcheck="false" placeholder="What was delivered" />
+        </div>
+        <div class="line-row">
+          <div class="field" data-field-wrap="quantity">
+            <label for="qty-${id}">Qty</label>
+            <input class="input" data-field="quantity" id="qty-${id}" type="text" inputmode="decimal" autocomplete="off" spellcheck="false" />
+            <span class="error" role="alert">Enter a non-negative number.</span>
+          </div>
+          <div class="field" data-field-wrap="rate">
+            <label for="rate-${id}">Rate</label>
+            <input class="input" data-field="rate" id="rate-${id}" type="text" inputmode="decimal" autocomplete="off" spellcheck="false" />
+            <span class="hint">Price per unit</span>
+            <span class="error" role="alert">Enter a non-negative number.</span>
+          </div>
+        </div>
+        <div class="line-foot">
+          <button class="btn btn-ghost btn-sm" type="button" data-action="remove">Remove</button>
+        </div>
+      `
+        card
+          .querySelector('[data-field="item"]')
+          .addEventListener('input', (e) =>
+            updateLineItem(id, { item: e.target.value }),
+          )
+        card
+          .querySelector('[data-field="description"]')
+          .addEventListener('input', (e) =>
+            updateLineItem(id, { description: e.target.value }),
+          )
+        card
+          .querySelector('[data-field="quantity"]')
+          .addEventListener('input', (e) =>
+            updateLineItem(id, { quantity: e.target.value }),
+          )
+        card
+          .querySelector('[data-field="rate"]')
+          .addEventListener('input', (e) =>
+            updateLineItem(id, { rate: e.target.value }),
+          )
+        card
+          .querySelector('[data-action="remove"]')
+          .addEventListener('click', () => removeLineItem(id))
+        updateLineCard(card, l, count)
+        return card
+      }
+      function updateLineCard(card, l, count) {
+        const itemInput = card.querySelector('[data-field="item"]')
+        const descInput = card.querySelector('[data-field="description"]')
+        const qtyInput = card.querySelector('[data-field="quantity"]')
+        const rateInput = card.querySelector('[data-field="rate"]')
+        if (document.activeElement !== itemInput) itemInput.value = l.item
+        if (document.activeElement !== descInput)
+          descInput.value = l.description
+        if (document.activeElement !== qtyInput) qtyInput.value = l.quantity
+        if (document.activeElement !== rateInput) rateInput.value = l.rate
+        card
+          .querySelector('[data-field-wrap="quantity"]')
+          .classList.toggle('is-invalid', !isValidAmount(l.quantity))
+        card
+          .querySelector('[data-field-wrap="rate"]')
+          .classList.toggle('is-invalid', !isValidAmount(l.rate))
+        card.querySelector('[data-action="remove"]').disabled = count <= 1
+      }
+      function renderContentTab() {
+        const lines = state.draft.content.lineItems
+        const currentIds = Array.from(el.lineItems.children).map(
+          (c) => c.dataset.lineId,
+        )
+        const newIds = lines.map((l) => l.id)
+        const structureChanged =
+          currentIds.length !== newIds.length ||
+          currentIds.some((id, i) => id !== newIds[i])
+
+        if (structureChanged) {
+          el.lineItems.replaceChildren(
+            ...lines.map((l) => buildLineCard(l, lines.length)),
+          )
+        } else {
+          lines.forEach((l) =>
+            updateLineCard(
+              el.lineItems.querySelector(`[data-line-id="${l.id}"]`),
+              l,
+              lines.length,
+            ),
+          )
+        }
+
+        if (document.activeElement !== el.discount)
+          el.discount.value = state.draft.content.discount
+        el.fieldDiscount.classList.toggle(
+          'is-invalid',
+          !isValidAmount(state.draft.content.discount),
+        )
+      }
+
+      function totRow(label, value, strong) {
+        const div = document.createElement('div')
+        div.className = 'tot' + (strong ? ' strong' : '')
+        const s = document.createElement('span')
+        s.textContent = label
+        div.append(s, line('num', value))
+        return div
+      }
+      function renderInvoicePreview(calc) {
+        el.invLines.replaceChildren(
+          ...calc.lines.map((l) => {
+            const tr = document.createElement('tr')
+            const item = document.createElement('td')
+            item.textContent = l.item
+            const desc = document.createElement('td')
+            desc.className = 'desc'
+            desc.textContent = l.description
+            const rate = document.createElement('td')
+            rate.className = 'r num'
+            rate.textContent = formatMoney(l.rate)
+            const total = document.createElement('td')
+            total.className = 'r num'
+            total.textContent = formatMoney(l.total)
+            tr.append(item, desc, rate, total)
+            return tr
+          }),
+        )
+        el.invTotals.replaceChildren(
+          totRow('Subtotal', formatMoney(calc.subtotal)),
+          totRow('Discount', formatMoney(calc.discount)),
+          ...calc.taxes.map((t) => totRow(t.label, formatMoney(t.amount))),
+          totRow('Total', formatMoney(calc.total), true),
+          totRow('Payment made', formatMoney(calc.paymentMade)),
+          totRow('Balance due', formatMoney(calc.balanceDue), true),
+        )
       }
 
       function renderPreview() {
@@ -1866,6 +2122,7 @@
         el.invLogo.replaceChildren()
         if (b.showLogo)
           el.invLogo.append(b.logo ? logoImg(b.logo) : placeholderLogo())
+        renderInvoicePreview(calculateInvoice(state.draft.content))
         fitPaper()
       }
 
@@ -1940,6 +2197,7 @@
       }
       function render() {
         renderForm()
+        renderContentTab()
         renderPreview()
         renderFooter()
       }
@@ -1959,6 +2217,40 @@
       function updateBranding(patch) {
         touch()
         Object.assign(state.draft.branding, patch)
+        render()
+      }
+      function updateLineItem(id, patch) {
+        touch()
+        state.draft.content.lineItems = state.draft.content.lineItems.map(
+          (l) => (l.id === id ? { ...l, ...patch } : l),
+        )
+        render()
+      }
+      function addLineItem() {
+        touch()
+        state.draft.content.lineItems = [
+          ...state.draft.content.lineItems,
+          {
+            id: crypto.randomUUID(),
+            item: '',
+            description: '',
+            quantity: '1',
+            rate: '',
+          },
+        ]
+        render()
+      }
+      function removeLineItem(id) {
+        if (state.draft.content.lineItems.length <= 1) return
+        touch()
+        state.draft.content.lineItems = state.draft.content.lineItems.filter(
+          (l) => l.id !== id,
+        )
+        render()
+      }
+      function setDiscount(discount) {
+        touch()
+        state.draft.content.discount = discount
         render()
       }
       function save() {
@@ -2017,6 +2309,9 @@
         updateBranding({ showLogo: !state.draft.branding.showLogo }),
       )
 
+      el.btnAddLine.addEventListener('click', addLineItem)
+      el.discount.addEventListener('input', (e) => setDiscount(e.target.value))
+
       function setLogoError(msg) {
         el.logoError.textContent = msg
         el.logoError.classList.toggle('is-on', Boolean(msg))
@@ -2029,7 +2324,7 @@
           )
         if (file.size > MAX_BYTES)
           return setLogoError(
-            'File is ' + formatBytes(file.size) + ' — the limit is 10 MB.',
+            'File is ' + formatBytes(file.size) + ' — the limit is 1 MB.',
           )
         const reader = new FileReader()
         reader.onerror = () =>

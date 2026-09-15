@@ -26,7 +26,6 @@ const TAB_ITEMS: TabItem<EditorTab>[] = [
   {
     id: 'content',
     label: 'Content',
-    badge: 'Soon',
     icon: (
       <svg
         viewBox="0 0 24 24"

@@ -51,6 +51,9 @@ src/
   index.css                       # Tailwind entry + design-token @theme block
   types/invoiceTemplate.ts        # InvoiceTemplate data model
   store/useInvoiceTemplateStore.ts
+  lib/                            # generic, feature-agnostic helpers
+    amount.ts                     # parse/validate/format/sanitize money input
+    id.ts                         # id generation (secure-context fallback)
   components/ui/                  # domain-agnostic primitives
     Button/
     TextField/
@@ -61,7 +64,8 @@ src/
     TemplateCustomizer/           # screen shell: two panels
     EditorSidebar/
     GeneralTab/
-    ContentTab/
+    ContentTab/                   # line items + discount form
+    LineItemsEditor/              # list of line cards, add/remove
     LogoField/
     PaymentMethodsRow/
     EditorFooter/
@@ -73,7 +77,8 @@ src/
     InvoiceLineItems/
     InvoiceTotals/
     InvoiceFooterText/
-    mockInvoice.ts                # plain data module, not a component
+    calculateInvoice.ts           # combines line items + tax rates (lib/amount.ts helpers)
+    mockInvoice.ts                # fixed document data (no amounts)
 public/                           # static assets served as-is
 docs/design/                      # design specs, tokens, and HTML/CSS prototypes
 ```
