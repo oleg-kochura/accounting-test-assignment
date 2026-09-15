@@ -4,31 +4,22 @@ export interface InvoiceParty {
   phone: string
 }
 
-export interface InvoiceLineItem {
-  item: string
-  description: string
-  rate: string
-  total: string
-}
-
-export interface InvoiceTax {
+interface InvoiceTax {
   label: string
-  amount: string
+  rate: number
 }
 
+// Fixed document data. Amounts (line items, discount, totals) are not
+// here: they come from the template's content settings and are computed
+// in calculateInvoice.ts.
 export interface InvoiceData {
   invoiceNumber: string
   dateOfIssue: string
   dueDate: string
   seller: InvoiceParty
   billedTo: InvoiceParty
-  lineItems: InvoiceLineItem[]
-  subtotal: string
-  discount: string
   taxes: InvoiceTax[]
-  total: string
-  paymentMade: string
-  balanceDue: string
+  paymentMade: number
   termsAndConditions: string
   statement: string
 }
@@ -57,23 +48,11 @@ export const MOCK_INVOICE: InvoiceData = {
     ],
     phone: '+1 762-339-5634',
   },
-  lineItems: [
-    {
-      item: 'Web development',
-      description: 'Website development with content and SEO optimization',
-      rate: '1',
-      total: '$1000.00',
-    },
-  ],
-  subtotal: '630.00',
-  discount: '0.00',
   taxes: [
-    { label: 'Sample Tax1 (4.70%)', amount: '11.75' },
-    { label: 'Sample Tax2 (7.00%)', amount: '21.74' },
+    { label: 'Sample Tax1 (4.70%)', rate: 0.047 },
+    { label: 'Sample Tax2 (7.00%)', rate: 0.07 },
   ],
-  total: '$662.75',
-  paymentMade: '100.00',
-  balanceDue: '$562.75',
+  paymentMade: 100,
   termsAndConditions:
     'All services provided are non-refundable. For any disputes, please contact us within 7 days of receiving this invoice.',
   statement:

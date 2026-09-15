@@ -1,6 +1,7 @@
 import type { CSSProperties } from 'react'
 import type { InvoiceTemplate } from '../../../types/invoiceTemplate'
 import type { InvoiceData } from '../mockInvoice'
+import { calculateInvoice, formatMoney } from '../calculateInvoice'
 import { InvoiceHeader } from '../InvoiceHeader'
 import { InvoiceMeta } from '../InvoiceMeta'
 import { InvoiceParties } from '../InvoiceParties'
@@ -18,6 +19,10 @@ export function InvoicePreview({ template, invoice }: InvoicePreviewProps) {
     '--primary': template.branding.primaryColor,
     '--secondary': template.branding.secondaryColor,
   } as CSSProperties
+
+  // Cheap (a handful of rows), so recomputed on every render rather than
+  // memoised.
+  const calc = calculateInvoice(template.content, invoice)
 
   return (
     <article
@@ -37,14 +42,17 @@ export function InvoicePreview({ template, invoice }: InvoicePreviewProps) {
           dueDate={invoice.dueDate}
         />
         <InvoiceParties seller={invoice.seller} billedTo={invoice.billedTo} />
-        <InvoiceLineItems items={invoice.lineItems} />
+        <InvoiceLineItems lines={calc.lines} />
         <InvoiceTotals
-          subtotal={invoice.subtotal}
-          discount={invoice.discount}
-          taxes={invoice.taxes}
-          total={invoice.total}
-          paymentMade={invoice.paymentMade}
-          balanceDue={invoice.balanceDue}
+          subtotal={formatMoney(calc.subtotal)}
+          discount={formatMoney(calc.discount)}
+          taxes={calc.taxes.map((tax) => ({
+            label: tax.label,
+            amount: formatMoney(tax.amount),
+          }))}
+          total={formatMoney(calc.total)}
+          paymentMade={formatMoney(calc.paymentMade)}
+          balanceDue={formatMoney(calc.balanceDue)}
         />
         <InvoiceFooterText
           termsAndConditions={invoice.termsAndConditions}
