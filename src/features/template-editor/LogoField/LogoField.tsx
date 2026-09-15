@@ -8,7 +8,7 @@ const ACCEPTED_TYPES = [
   'image/svg+xml',
   'image/webp',
 ]
-const MAX_BYTES = 1024 * 1024
+const MAX_BYTES = 10 * 1024 * 1024
 
 function formatBytes(bytes: number): string {
   if (bytes < 1024) return `${bytes} B`
@@ -35,7 +35,7 @@ export function LogoField() {
       return
     }
     if (file.size > MAX_BYTES) {
-      setError(`File is ${formatBytes(file.size)} — the limit is 1 MB.`)
+      setError(`File is ${formatBytes(file.size)} — the limit is 10 MB.`)
       return
     }
     const reader = new FileReader()
@@ -142,7 +142,7 @@ export function LogoField() {
                 </button>
               </span>
               <span className="text-sm text-muted-text">
-                PNG, JPG, SVG or WebP · up to 1 MB{hiddenSuffix}
+                PNG, JPG, SVG or WebP · up to 10 MB{hiddenSuffix}
               </span>
             </>
           )}
