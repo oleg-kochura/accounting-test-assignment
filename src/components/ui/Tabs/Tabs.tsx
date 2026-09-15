@@ -1,4 +1,4 @@
-import { Tabs as RadixTabs } from 'radix-ui'
+import * as RadixTabs from 'radix-ui/tabs'
 import type { ReactNode } from 'react'
 
 export interface TabItem<T extends string> {

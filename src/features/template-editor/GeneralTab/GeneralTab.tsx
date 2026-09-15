@@ -1,7 +1,7 @@
-import { TextField } from '../../../components/ui/TextField'
-import { ColorField } from '../../../components/ui/ColorField'
-import { Toggle } from '../../../components/ui/Toggle'
-import { useInvoiceTemplateStore } from '../../../store/useInvoiceTemplateStore'
+import { TextField } from 'components/ui/TextField'
+import { ColorField } from 'components/ui/ColorField'
+import { Toggle } from 'components/ui/Toggle'
+import { useInvoiceTemplateStore } from 'store/useInvoiceTemplateStore'
 import { LogoField } from '../LogoField'
 import { PaymentMethodsRow } from '../PaymentMethodsRow'
 

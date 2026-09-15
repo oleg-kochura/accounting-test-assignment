@@ -47,6 +47,22 @@ commands and update this file.
 - `docs/architecture.md` — `src/` folder structure, component
   conventions, styling, and React performance guidelines.
 
+## Git & PR workflow
+
+- **Branching**: `main` is protected (no direct pushes, linear history, no
+  force-push/delete). Branch as `feat/<name>`, `fix/<name>`, or
+  `chore/<name>` → PR via `gh pr create` → merge (squash or rebase) once CI
+  is green. No required reviews — the author can self-merge.
+- **Commits**: Conventional Commits, enforced by commitlint
+  (`@commitlint/config-conventional`) — `<type>: <lowercase imperative
+summary>`, no trailing period. Common types: `feat`, `fix`, `chore`,
+  `refactor`, `docs`, `style`, `test`, `ci`, `build`.
+- **Hooks** (Husky): `pre-commit` → lint-staged (ESLint `--fix` + Prettier
+  on staged files), `commit-msg` → commitlint, `pre-push` → `npm run
+typecheck && npm run knip`. Don't bypass with `--no-verify`.
+- Don't commit or push unless explicitly asked — prepare the change and
+  let the user review first.
+
 ## Notes for agents
 
 - The repository is a public GitHub repo:

@@ -1,6 +1,6 @@
-import type { ContentSettings } from '../../types/invoiceTemplate'
+import type { ContentSettings } from 'types/invoiceTemplate'
 import type { InvoiceData } from './mockInvoice'
-import { parseAmount, round2 } from '../../lib/amount'
+import { parseAmount, round2 } from 'lib/amount'
 
 export interface CalculatedLine {
   id: string

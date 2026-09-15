@@ -1,0 +1,85 @@
+import { Button } from 'components/ui/Button'
+import { TextField } from 'components/ui/TextField'
+import { isValidAmount, sanitizeAmountInput } from 'lib/amount'
+import { useInvoiceTemplateStore } from 'store/useInvoiceTemplateStore'
+import type { LineItemDraft } from 'types/invoiceTemplate'
+
+const AMOUNT_ERROR = 'Enter a non-negative number.'
+
+export interface LineItemCardProps {
+  line: LineItemDraft
+  removable: boolean
+}
+
+export function LineItemCard({ line, removable }: LineItemCardProps) {
+  const updateLineItem = useInvoiceTemplateStore((s) => s.updateLineItem)
+  const removeLineItem = useInvoiceTemplateStore((s) => s.removeLineItem)
+
+  return (
+    <div className="flex flex-col gap-3 rounded-lg border border-border p-4">
+      <TextField
+        id={`item-${line.id}`}
+        label="Item"
+        placeholder="e.g. Web development"
+        autoComplete="off"
+        spellCheck={false}
+        value={line.item}
+        onChange={(e) => updateLineItem(line.id, { item: e.target.value })}
+      />
+      <TextField
+        id={`description-${line.id}`}
+        label="Description"
+        placeholder="What was delivered"
+        autoComplete="off"
+        spellCheck={false}
+        value={line.description}
+        onChange={(e) =>
+          updateLineItem(line.id, { description: e.target.value })
+        }
+      />
+      <div className="grid grid-cols-2 gap-2.5">
+        <TextField
+          id={`qty-${line.id}`}
+          label="Qty"
+          type="text"
+          inputMode="decimal"
+          autoComplete="off"
+          spellCheck={false}
+          value={line.quantity}
+          onChange={(e) =>
+            updateLineItem(line.id, {
+              quantity: sanitizeAmountInput(e.target.value),
+            })
+          }
+          error={isValidAmount(line.quantity) ? '' : AMOUNT_ERROR}
+        />
+        <TextField
+          id={`rate-${line.id}`}
+          label="Rate"
+          type="text"
+          inputMode="decimal"
+          autoComplete="off"
+          spellCheck={false}
+          value={line.rate}
+          onChange={(e) =>
+            updateLineItem(line.id, {
+              rate: sanitizeAmountInput(e.target.value),
+            })
+          }
+          hint="Price per unit"
+          error={isValidAmount(line.rate) ? '' : AMOUNT_ERROR}
+        />
+      </div>
+      <div className="flex justify-end">
+        <Button
+          variant="ghost"
+          size="sm"
+          disabled={!removable}
+          onClick={() => removeLineItem(line.id)}
+        >
+          Remove
+        </Button>
+      </div>
+    </div>
+  )
+}

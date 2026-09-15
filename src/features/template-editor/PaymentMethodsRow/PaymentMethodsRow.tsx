@@ -1,4 +1,4 @@
-import CardIcon from '../../../assets/icons/card.svg?react'
+import CardIcon from 'assets/icons/card.svg?react'
 
 export function PaymentMethodsRow() {
   return (

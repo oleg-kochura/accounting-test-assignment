@@ -1,6 +1,6 @@
-import { TextField } from '../../../components/ui/TextField'
-import { isValidAmount, sanitizeAmountInput } from '../../../lib/amount'
-import { useInvoiceTemplateStore } from '../../../store/useInvoiceTemplateStore'
+import { TextField } from 'components/ui/TextField'
+import { isValidAmount, sanitizeAmountInput } from 'lib/amount'
+import { useInvoiceTemplateStore } from 'store/useInvoiceTemplateStore'
 import { LineItemsEditor } from '../LineItemsEditor'
 
 export function ContentTab() {

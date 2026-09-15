@@ -1,4 +1,4 @@
-import { Switch } from 'radix-ui'
+import * as Switch from 'radix-ui/switch'
 import type { ReactNode } from 'react'
 
 export interface ToggleProps {

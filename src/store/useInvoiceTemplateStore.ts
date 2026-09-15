@@ -1,6 +1,6 @@
 import { create } from 'zustand'
-import { isValidAmount } from '../lib/amount'
-import { generateId } from '../lib/id'
+import { isValidAmount } from 'lib/amount'
+import { generateId } from 'lib/id'
 import {
   DEFAULT_TEMPLATE,
   type BrandingSettings,
@@ -8,7 +8,7 @@ import {
   type EditorTab,
   type InvoiceTemplate,
   type LineItemDraft,
-} from '../types/invoiceTemplate'
+} from 'types/invoiceTemplate'
 
 export interface InvoiceTemplateState {
   saved: InvoiceTemplate
