@@ -1,5 +1,5 @@
 import { TextField } from '../../../components/ui/TextField'
-import { isValidAmount } from '../../invoice-preview/calculateInvoice'
+import { isValidAmount, sanitizeAmountInput } from '../../../lib/amount'
 import { useInvoiceTemplateStore } from '../../../store/useInvoiceTemplateStore'
 import { LineItemsEditor } from '../LineItemsEditor'
 
@@ -17,12 +17,13 @@ export function ContentTab() {
         <TextField
           id="discount"
           label="Discount"
+          type="text"
           inputMode="decimal"
           placeholder="0.00"
           autoComplete="off"
           spellCheck={false}
           value={discount}
-          onChange={(e) => setDiscount(e.target.value)}
+          onChange={(e) => setDiscount(sanitizeAmountInput(e.target.value))}
           hint="Applied before tax."
           error={isValidAmount(discount) ? '' : 'Enter a non-negative amount.'}
         />

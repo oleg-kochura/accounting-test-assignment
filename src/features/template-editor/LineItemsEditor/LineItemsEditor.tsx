@@ -1,6 +1,6 @@
 import { Button } from '../../../components/ui/Button'
 import { TextField } from '../../../components/ui/TextField'
-import { isValidAmount } from '../../invoice-preview/calculateInvoice'
+import { isValidAmount, sanitizeAmountInput } from '../../../lib/amount'
 import { useInvoiceTemplateStore } from '../../../store/useInvoiceTemplateStore'
 import type { LineItemDraft } from '../../../types/invoiceTemplate'
 
@@ -41,23 +41,31 @@ function LineItemCard({ line, removable }: LineItemCardProps) {
         <TextField
           id={`qty-${line.id}`}
           label="Qty"
+          type="text"
           inputMode="decimal"
           autoComplete="off"
           spellCheck={false}
           value={line.quantity}
           onChange={(e) =>
-            updateLineItem(line.id, { quantity: e.target.value })
+            updateLineItem(line.id, {
+              quantity: sanitizeAmountInput(e.target.value),
+            })
           }
           error={isValidAmount(line.quantity) ? '' : AMOUNT_ERROR}
         />
         <TextField
           id={`rate-${line.id}`}
           label="Rate"
+          type="text"
           inputMode="decimal"
           autoComplete="off"
           spellCheck={false}
           value={line.rate}
-          onChange={(e) => updateLineItem(line.id, { rate: e.target.value })}
+          onChange={(e) =>
+            updateLineItem(line.id, {
+              rate: sanitizeAmountInput(e.target.value),
+            })
+          }
           hint="Price per unit"
           error={isValidAmount(line.rate) ? '' : AMOUNT_ERROR}
         />

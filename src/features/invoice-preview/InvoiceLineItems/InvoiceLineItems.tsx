@@ -1,4 +1,5 @@
-import { formatMoney, type CalculatedLine } from '../calculateInvoice'
+import { formatMoney } from '../../../lib/amount'
+import type { CalculatedLine } from '../calculateInvoice'
 
 export interface InvoiceLineItemsProps {
   lines: CalculatedLine[]

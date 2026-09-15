@@ -1,5 +1,6 @@
 import { create } from 'zustand'
-import { isValidAmount } from '../features/invoice-preview/calculateInvoice'
+import { isValidAmount } from '../lib/amount'
+import { generateId } from '../lib/id'
 import {
   DEFAULT_TEMPLATE,
   type BrandingSettings,
@@ -56,7 +57,7 @@ export const useInvoiceTemplateStore = create<InvoiceTemplateState>((set) => ({
         lineItems: [
           ...state.draft.content.lineItems,
           {
-            id: globalThis.crypto.randomUUID(),
+            id: generateId(),
             item: '',
             description: '',
             quantity: '1',

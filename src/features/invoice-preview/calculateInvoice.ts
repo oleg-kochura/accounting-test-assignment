@@ -1,5 +1,6 @@
 import type { ContentSettings } from '../../types/invoiceTemplate'
 import type { InvoiceData } from './mockInvoice'
+import { parseAmount, round2 } from '../../lib/amount'
 
 export interface CalculatedLine {
   id: string
@@ -22,32 +23,6 @@ export interface CalculatedInvoice {
   total: number
   paymentMade: number
   balanceDue: number
-}
-
-const MONEY = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD',
-})
-
-const round2 = (value: number): number => Math.round(value * 100) / 100
-
-// Lenient: the preview must always render while the user is mid-edit.
-// '', 'abc', '-5' and 'Infinity' all become 0. Strictness lives in
-// isValidAmount, which gates Save.
-function parseAmount(raw: string): number {
-  const n = Number(raw.trim())
-  return Number.isFinite(n) && n > 0 ? n : 0
-}
-
-export function isValidAmount(raw: string): boolean {
-  const value = raw.trim()
-  if (value === '') return false
-  const n = Number(value)
-  return Number.isFinite(n) && n >= 0
-}
-
-export function formatMoney(value: number): string {
-  return MONEY.format(value)
 }
 
 export function calculateInvoice(
