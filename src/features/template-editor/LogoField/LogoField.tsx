@@ -171,6 +171,8 @@ export function LogoField() {
           type="file"
           accept={ACCEPTED_TYPES.join(',')}
           onChange={handleInputChange}
+          aria-label="Choose a logo file"
+          tabIndex={-1}
           className="sr-only"
         />
       </div>

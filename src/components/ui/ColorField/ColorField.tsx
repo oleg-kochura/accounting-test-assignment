@@ -21,10 +21,19 @@ export function ColorField({
 }: ColorFieldProps) {
   const [draftText, setDraftText] = useState(value)
   const [invalid, setInvalid] = useState(false)
+  const [prevValue, setPrevValue] = useState(value)
 
-  // Follow the store's value when it changes externally (e.g. Cancel)
-  // and the field isn't mid-edit with an invalid value.
-  const textValue = value !== draftText && !invalid ? value : draftText
+  // Follow the store's value whenever it changes externally (e.g. Cancel,
+  // or a valid commit this field itself made). Typing an invalid value
+  // never changes `value`, so this doesn't fight with the handlers below.
+  // Adjusted during render (React's documented pattern for resetting state
+  // when a prop changes) rather than in a useEffect, since the latter trips
+  // the react-hooks/set-state-in-effect lint rule.
+  if (value !== prevValue) {
+    setPrevValue(value)
+    setDraftText(value)
+    setInvalid(false)
+  }
 
   function commitIfValid(next: string) {
     const trimmed = next.trim()
@@ -78,7 +87,7 @@ export function ColorField({
           maxLength={7}
           autoComplete="off"
           spellCheck={false}
-          value={textValue}
+          value={draftText}
           onChange={handleTextChange}
           onBlur={handleBlur}
           aria-label={`${label} color hex`}

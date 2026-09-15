@@ -1,4 +1,4 @@
-import type { KeyboardEvent, ReactNode } from 'react'
+import { useRef, type KeyboardEvent, type ReactNode } from 'react'
 
 export interface TabItem<T extends string> {
   id: T
@@ -20,6 +20,8 @@ export function Tabs<T extends string>({
   onChange,
   'aria-label': ariaLabel,
 }: TabsProps<T>) {
+  const tabRefs = useRef(new Map<T, HTMLButtonElement>())
+
   function handleKeyDown(e: KeyboardEvent<HTMLDivElement>) {
     if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return
     e.preventDefault()
@@ -28,7 +30,9 @@ export function Tabs<T extends string>({
       e.key === 'ArrowRight'
         ? (index + 1) % items.length
         : (index - 1 + items.length) % items.length
-    onChange(items[nextIndex].id)
+    const nextId = items[nextIndex].id
+    onChange(nextId)
+    tabRefs.current.get(nextId)?.focus()
   }
 
   return (
@@ -43,6 +47,10 @@ export function Tabs<T extends string>({
         return (
           <button
             key={item.id}
+            ref={(el) => {
+              if (el) tabRefs.current.set(item.id, el)
+              else tabRefs.current.delete(item.id)
+            }}
             type="button"
             role="tab"
             id={`tab-${item.id}`}

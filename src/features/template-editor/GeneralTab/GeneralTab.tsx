@@ -24,6 +24,7 @@ export function GeneralTab() {
       role="tabpanel"
       id="panel-general"
       aria-labelledby="tab-general"
+      tabIndex={0}
       className="px-7 pt-5 pb-6"
     >
       <h2 className="mb-4 text-xl leading-normal font-semibold tracking-snug">

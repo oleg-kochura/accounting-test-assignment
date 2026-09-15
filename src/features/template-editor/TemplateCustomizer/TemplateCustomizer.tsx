@@ -11,7 +11,7 @@ export function TemplateCustomizer() {
     <main className="flex min-h-screen flex-col lg:grid lg:h-screen lg:grid-cols-[520px_1fr]">
       <section
         aria-labelledby="customize-title"
-        className="flex flex-col border-b border-border bg-surface lg:border-r lg:border-b-0 lg:overflow-y-auto"
+        className="flex flex-col border-b border-border bg-surface lg:border-r lg:border-b-0"
       >
         <div className="flex items-baseline justify-between gap-3 px-7 pt-4.5 pb-2.5">
           <h1

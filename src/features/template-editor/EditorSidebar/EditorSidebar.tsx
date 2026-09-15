@@ -50,7 +50,7 @@ export function EditorSidebar() {
   const setActiveTab = useInvoiceTemplateStore((s) => s.setActiveTab)
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col">
+    <div className="flex min-h-0 flex-1 flex-col lg:overflow-y-auto">
       <Tabs
         items={TAB_ITEMS}
         activeId={activeTab}

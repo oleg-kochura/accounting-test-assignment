@@ -37,8 +37,16 @@ export const useInvoiceTemplateStore = create<InvoiceTemplateState>((set) => ({
   cancel: () => set((state) => ({ draft: state.saved })),
 }))
 
-export const selectIsDirty = (state: InvoiceTemplateState): boolean =>
-  JSON.stringify(state.draft) !== JSON.stringify(state.saved)
+export const selectIsDirty = (state: InvoiceTemplateState): boolean => {
+  const { draft, saved } = state
+  return (
+    draft.name !== saved.name ||
+    draft.branding.primaryColor !== saved.branding.primaryColor ||
+    draft.branding.secondaryColor !== saved.branding.secondaryColor ||
+    draft.branding.showLogo !== saved.branding.showLogo ||
+    draft.branding.logo !== saved.branding.logo
+  )
+}
 
 export const selectIsValid = (state: InvoiceTemplateState): boolean =>
   state.draft.name.trim().length > 0
