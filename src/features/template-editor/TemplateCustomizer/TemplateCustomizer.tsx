@@ -98,6 +98,7 @@ export function TemplateCustomizer() {
 
       <section
         aria-labelledby="preview-title"
+        tabIndex={0}
         className={`flex-col bg-bg lg:flex lg:overflow-y-auto ${
           mobileView === 'preview' ? 'flex' : 'hidden'
         }`}
