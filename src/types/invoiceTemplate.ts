@@ -13,7 +13,7 @@ export interface BrandingSettings {
 
 // Intentionally empty. Reserved for the Content tab; fields are added
 // together with the tab's form, not in advance.
-export type ContentSettings = Record<never, never>
+type ContentSettings = Record<never, never>
 
 export interface InvoiceTemplate {
   name: string
