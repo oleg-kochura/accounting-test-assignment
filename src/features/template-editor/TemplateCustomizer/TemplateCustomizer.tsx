@@ -77,7 +77,7 @@ export function TemplateCustomizer() {
 
       <section
         aria-labelledby="customize-title"
-        className={`flex-col border-b border-border bg-surface lg:flex lg:border-r lg:border-b-0 ${
+        className={`flex-col border-b border-border bg-surface lg:flex lg:min-h-0 lg:border-r lg:border-b-0 ${
           mobileView === 'customize' ? 'flex' : 'hidden'
         }`}
       >
@@ -99,7 +99,7 @@ export function TemplateCustomizer() {
       <section
         aria-labelledby="preview-title"
         tabIndex={0}
-        className={`flex-col bg-bg lg:flex lg:overflow-y-auto ${
+        className={`flex-col bg-bg lg:flex lg:min-h-0 lg:overflow-y-auto ${
           mobileView === 'preview' ? 'flex' : 'hidden'
         }`}
       >
@@ -114,9 +114,11 @@ export function TemplateCustomizer() {
             Sample invoice · figures are illustrative
           </span>
         </div>
-        <div className="flex flex-1 items-start justify-center px-4 pt-3.5 pb-12 lg:px-10">
-          <div className="w-full max-w-[760px]">
-            <InvoicePreview template={draft} invoice={MOCK_INVOICE} />
+        <div className="flex-1 overflow-x-auto pt-3.5 pb-12 lg:flex lg:items-start lg:justify-center lg:overflow-visible lg:px-10">
+          <div className="inline-block px-4 lg:contents">
+            <div className="w-[680px] max-w-none lg:w-full lg:max-w-[760px]">
+              <InvoicePreview template={draft} invoice={MOCK_INVOICE} />
+            </div>
           </div>
         </div>
       </section>
