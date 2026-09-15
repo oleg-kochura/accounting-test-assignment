@@ -1,0 +1,77 @@
+import { useEffect, useRef, useState } from 'react'
+import { Button } from '../../../components/ui/Button'
+import {
+  selectIsDirty,
+  selectIsValid,
+  useInvoiceTemplateStore,
+} from '../../../store/useInvoiceTemplateStore'
+
+const CONFIRMATION_MS = 2500
+
+export function EditorFooter() {
+  const isDirty = useInvoiceTemplateStore(selectIsDirty)
+  const isValid = useInvoiceTemplateStore(selectIsValid)
+  const save = useInvoiceTemplateStore((s) => s.save)
+  const cancel = useInvoiceTemplateStore((s) => s.cancel)
+
+  const [showConfirmation, setShowConfirmation] = useState(false)
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(
+    () => () => {
+      if (timerRef.current) clearTimeout(timerRef.current)
+    },
+    [],
+  )
+
+  function handleSave() {
+    save()
+    setShowConfirmation(true)
+    if (timerRef.current) clearTimeout(timerRef.current)
+    timerRef.current = setTimeout(
+      () => setShowConfirmation(false),
+      CONFIRMATION_MS,
+    )
+  }
+
+  function handleCancel() {
+    if (timerRef.current) clearTimeout(timerRef.current)
+    setShowConfirmation(false)
+    cancel()
+  }
+
+  const statusText = showConfirmation
+    ? 'Template saved'
+    : isDirty
+      ? 'Unsaved changes'
+      : 'No unsaved changes'
+  const dotColor = showConfirmation
+    ? 'bg-accent'
+    : isDirty
+      ? 'bg-warn-ink'
+      : 'bg-border-strong'
+
+  return (
+    <footer className="mt-auto flex items-center justify-between gap-3 border-t border-border px-7 py-3.5">
+      <div className="flex items-center gap-2 text-md text-muted-text">
+        <span
+          aria-hidden="true"
+          className={`h-1.5 w-1.5 rounded-full ${dotColor}`}
+        />
+        <span aria-live="polite">{statusText}</span>
+      </div>
+      <div className="flex gap-2">
+        <Button variant="secondary" disabled={!isDirty} onClick={handleCancel}>
+          Cancel
+        </Button>
+        <Button
+          variant="primary"
+          disabled={!(isDirty && isValid)}
+          onClick={handleSave}
+        >
+          Save template
+        </Button>
+      </div>
+    </footer>
+  )
+}
