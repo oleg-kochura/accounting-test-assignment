@@ -92,10 +92,22 @@ export const useInvoiceTemplateStore = create<InvoiceTemplateState>((set) => ({
   cancel: () => set((state) => ({ draft: state.saved })),
 }))
 
-// The template is small and the logo data URL compares as a string, so a
-// JSON round-trip is cheaper to maintain than a hand-written field list.
-export const selectIsDirty = (state: InvoiceTemplateState): boolean =>
-  JSON.stringify(state.draft) !== JSON.stringify(state.saved)
+// name/branding fields are always replaced wholesale by their setters, so
+// reference equality is correct and cheap for them. `content` holds a
+// variable-length line-items array, so it is JSON-compared instead of
+// hand-written field by field — it is small and never holds the logo data
+// URL, so this stays cheap even with a large logo uploaded.
+export const selectIsDirty = (state: InvoiceTemplateState): boolean => {
+  const { draft, saved } = state
+  return (
+    draft.name !== saved.name ||
+    draft.branding.primaryColor !== saved.branding.primaryColor ||
+    draft.branding.secondaryColor !== saved.branding.secondaryColor ||
+    draft.branding.showLogo !== saved.branding.showLogo ||
+    draft.branding.logo !== saved.branding.logo ||
+    JSON.stringify(draft.content) !== JSON.stringify(saved.content)
+  )
+}
 
 export const selectIsValid = (state: InvoiceTemplateState): boolean => {
   const { name, content } = state.draft

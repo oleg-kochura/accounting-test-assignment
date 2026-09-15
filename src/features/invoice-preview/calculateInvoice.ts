@@ -66,7 +66,7 @@ export function calculateInvoice(
   })
   const subtotal = round2(lines.reduce((sum, line) => sum + line.total, 0))
   const discount = parseAmount(content.discount)
-  const taxBase = round2(subtotal - discount)
+  const taxBase = Math.max(0, round2(subtotal - discount))
   const taxes = invoice.taxes.map((tax) => ({
     label: tax.label,
     amount: round2(taxBase * tax.rate),
